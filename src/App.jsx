@@ -10,3 +10,6 @@ function App() {
 }
 
 export default App;
+
+// git reset --soft HEAD~1 : to soft reset latest commit
+// alt + ^to create this ~
