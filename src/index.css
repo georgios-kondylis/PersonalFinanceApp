@@ -1,3 +1,127 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  font-family: 'Public Sans', sans-serif;
+   line-height: 120%;
+}
+:root {
+  --beige1: #F8f4f0;
+  --beige2: #98908b;
+
+  --gray1: #201f24;
+  --gray2: #696868;
+  --gray3: #b3b3b3;
+  --gray4: #f2f2f2;
+
+  --green: #277c78;
+  --yellow: #f3cdac;
+  --cyan: #82c9d7;
+  --navy: #626070;
+  --red: #c94736;
+  --purple: #826cb0;
+
+  --purple2: #af81ba;
+  --turquoise: #597c7c;
+  --brown: #93674f;
+  --magenta: #934f6f;
+  --blue: #3f82b2;
+  --navyGray: #97a0ac;
+  --armyGreen: #7f9161;
+  --gold: #cab361;
+  --orange: #be6c49;
+}
+.transition1 {@apply transition-all ease-in-out duration-150 }
+/* ----------- COLORS -----------*/
+.beige1 { background-color: #F8f4f0 }
+.beige2 { background-color: #98908b }
+
+.gray1 { background-color: #201f24 }
+.gray2 { background-color: #696868 }
+.gray3 { background-color: #b3b3b3 }
+.gray4 { background-color: #f2f2f2 }
+
+.green { background-color: #277c78 }
+.yellow { background-color: #f3cdac }
+.cyan { background-color: #82c9d7 }
+.navy { background-color: #626070 }
+.red { background-color: #c94736 }
+.purple { background-color: #826cb0 }
+
+.purple2 { background-color: #af81ba }
+.turquoise { background-color: #597c7c }
+.brown { background-color: #93674f }
+.magenta { background-color: #934f6f }
+.blue { background-color: #3f82b2 }
+.navyGray { background-color: #97a0ac }
+.armyGreen { background-color: #7f9161 }
+.gold { background-color: #cab361 }
+.orange { background-color: #be6c49 }
+/* ----------- COLORS -----------*/
+
+/* ----------- TYPOGRAPHY -----------*/
+.txt1 {font-size: 12px; line-height: 150%; letter-spacing: 0;}
+.txt1b {font-size: 12px; line-height: 150%; letter-spacing: 0; font-weight: 700;}
+.txt2 {font-size: 14px; line-height: 150%; letter-spacing: 0;}
+.txt2b {font-size: 14px; line-height: 150%; letter-spacing: 0;  font-weight: 700;}
+.txt3 {font-size: 16px; line-height: 150%; letter-spacing: 0;}
+.txt3b {font-size: 16px; line-height: 150%; letter-spacing: 0; font-weight: 700;}
+.txt4 {font-size: 20px; line-height: 120%; letter-spacing: 0; font-weight: 700;}
+.txt5 {font-size: 28px; line-height: 120%; letter-spacing: 0; font-weight: 700;}
+/* ----------- TYPOGRAPHY -----------*/
+
+.navlink{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 0;
+  padding-left: 30px;
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  color: var(--gray3);
+}
+.navlink-small{
+  border: #201f24 2px solid;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  color: var(--gray3);
+}
+
+.pseudo-element {@apply z-20 absolute px-[5px] py-[2px] rounded-[5px] left-[65px] w-fit}
+.pseudo-element2 {@apply z-10 absolute  w-[15px] h-[15px] rotate-45 right-[-7px] top-[50%] transform translate-y-[-50%]}
+
+.navlink:hover {color: white}
+.navlink-small:hover {color: white;}
+
+.linkIsActive {background-color: var(--beige1); border-left: 5px solid var(--green);}
+.linkIsActive svg {fill: var(--green); transform: translateX(-5px);}
+.linkIsActive .link-name {color: black; transform: translateX(-5px);}
+
+.small-linkIsActive {background-color: var(--beige1); border-bottom: 5px solid var(--green);}
+.small-linkIsActive svg {fill: var(--green)}
+.small-linkIsActive .link-name {color: black;}
+
+/* ------------------------------------------------------------------------ */
+
+.gridBox {@apply border-none p-[35px] rounded-[10px] bg-white}
+
+.text_svg {
+  color: var(--gray2);
+  fill: var(--gray2);
+  font-size: 14px;
+  font-family: Arial, Helvetica, sans-serif; /* Or specify your font */
+  letter-spacing: 1px;
+  font-weight: 100;
+  cursor: pointer;
+}
+.text_svg:hover {
+  color: black;
+  fill: black !important;
+}
+
+.thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
