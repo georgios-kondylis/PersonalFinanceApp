@@ -32,7 +32,6 @@ body{
   --gold: #cab361;
   --orange: #be6c49;
 }
-.transition1 {@apply transition-all ease-in-out duration-150 }
 /* ----------- COLORS -----------*/
 .beige1 { background-color: #F8f4f0 }
 .beige2 { background-color: #98908b }
@@ -99,7 +98,7 @@ body{
 .navlink-small:hover {color: white;}
 
 .linkIsActive {background-color: var(--beige1); border-left: 5px solid var(--green);}
-.linkIsActive svg {fill: var(--green); transform: translateX(-5px);}
+.linkIsActive svg {fill: var(--green); transform: translateX(-5px) scale(1.4);}
 .linkIsActive .link-name {color: black; transform: translateX(-5px);}
 
 .small-linkIsActive {background-color: var(--beige1); border-bottom: 5px solid var(--green);}
@@ -108,7 +107,10 @@ body{
 
 /* ------------------------------------------------------------------------ */
 
-.gridBox {@apply border-none p-[35px] rounded-[10px] bg-white}
+.gridBox {@apply p-[30px] rounded-[10px] bg-white}
+.transition1 {@apply transition-all ease-in-out duration-150 }
+.thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
+.section {@apply beige1 px-[35px] py-[30px] flex flex-col w-full min-h-screen max-950:pb-[100px]}
 
 .text_svg {
   color: var(--gray2);
@@ -124,4 +126,3 @@ body{
   fill: black !important;
 }
 
-.thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}

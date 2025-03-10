@@ -7,7 +7,7 @@ const SmallNav = () => {
   const { pathname } = useLocation(); // To get the current path
 
   return (
-    <section className="w-full fixed bottom-0 gray1 h-[63px] txt3b rounded-t-[15px]">
+    <section className="z-50 w-full fixed bottom-0 gray1 h-[63px] txt3b rounded-t-[15px]">
       <nav className="h-full w-full flex flex-col pt-[7px] justify-between sm:px-[20px]">
         <div id="NAVLINKS" className="flex w-full justify-between">
           {navLinks.map((link, i) => {

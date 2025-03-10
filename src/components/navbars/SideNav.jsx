@@ -6,7 +6,7 @@ import ToggleSideBar from "../ui/ToggleSideBar";
 const SideNav = ({ navIsOpen, toggleNav }) => { 
   const [hoveredIndex, setHoveredIndex] = useState(null); 
   return ( 
-    <section className={`beige1 min-h-screen txt3b transition1 
+    <section className={`z-50 beige1 min-h-screen txt3b transition1 
             ${navIsOpen ? "max-w-[280px] w-[280px] superwide:max-w-[380px] superwide:w-[380px]" : "max-w-[80px] w-[80px]"}`}> 
       <nav className="h-full gray1 rounded-tr-[15px] rounded-br-[15px] flex flex-col justify-between"> 
         <div className="w-full h-[100vh] flex flex-col"> 

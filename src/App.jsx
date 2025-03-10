@@ -20,7 +20,16 @@ function App() {
   const [balance, setBalance] = useState([]);
   const [pots, setPots] = useState([]);
   const [budgets, setBudgets] = useState([]);
-
+  const recurringBillsDoubles = transactions.filter((transaction) => transaction.recurring === true);
+    // Remove duplicates based on name, category, and amount (ignore date)
+  const recurringBills = recurringBillsDoubles.filter((bill, index, self) =>
+      index === self.findIndex(b => 
+        b.name === bill.name &&
+        b.category === bill.category &&
+        b.amount === bill.amount
+      )
+  );
+ 
   useEffect(() => { // Fetch all MongoDB data
     const fetchData = async () => {
       try {
@@ -52,11 +61,11 @@ function App() {
       {wideScreen?
       <SideNav toggleNav={toggleNav} navIsOpen={navIsOpen}/> : <SmallNav/>}
       <Routes>
-        <Route path="/" element={<HomePage transactions={transactions} pots={pots} budgets={budgets} balance={balance} />} />
+        <Route path="/" element={<HomePage transactions={transactions} pots={pots} budgets={budgets} balance={balance} recurringBills={recurringBills}/>} />
         <Route path="/transactions" element={<Transactions balance={balance} transactions={transactions} />} />
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/pots" element={<Pots />} />
-        <Route path="/recurring-bills" element={<RecurringBills />} />
+        <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} />} />
       </Routes>
     </div>
   );
