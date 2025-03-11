@@ -41,6 +41,16 @@ export const formatDate = (date) => {
   const formattedDate = new Date(date).toLocaleDateString("en-GB", options);
   return formattedDate;
 };
+ // Function to get ordinal suffix | ex. monday 1st
+export const getOrdinalSuffix = (day) => {
+  if (day >= 11 && day <= 13) return "th"; // Special case for 11, 12, 13
+  switch (day % 10) {
+    case 1: return "st";
+    case 2: return "nd";
+    case 3: return "rd";
+    default: return "th";
+  }
+};
 
 export const navLinks = [
   {

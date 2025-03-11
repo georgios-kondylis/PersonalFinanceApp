@@ -55,17 +55,50 @@ function App() {
   
     fetchData();
   }, []);
+
+  const currDate = new Date();
+  const currDay = currDate.getDate(); // Get today's day of the month
+
+  const paidBills = recurringBills.filter(bill => {
+    const billDay = new Date(bill.date).getDate(); // Get bill's day of the month
+    return billDay < currDay; // If the bill's day has passed this month
+  });
+
+  const totalUpcoming = recurringBills.filter(bill => {
+    const billDay = new Date(bill.date).getDate();
+    return billDay >= currDay; // If the bill's day is today or later
+  });
+
+  const within5days = recurringBills.filter(bill => {
+    const billDay = new Date(bill.date).getDate();
+    return billDay > currDay && billDay <= currDay + 5; // Due within the next 5 days
+  });
+
   
   return (
     <div className='flex w-full gray1'>
       {wideScreen?
       <SideNav toggleNav={toggleNav} navIsOpen={navIsOpen}/> : <SmallNav/>}
       <Routes>
-        <Route path="/" element={<HomePage transactions={transactions} pots={pots} budgets={budgets} balance={balance} recurringBills={recurringBills}/>} />
+        <Route path="/" element={
+          <HomePage 
+           transactions={transactions}
+           pots={pots} budgets={budgets} 
+           balance={balance} 
+           recurringBills={recurringBills} 
+           paidBills={paidBills} 
+           totalUpcoming={totalUpcoming}
+           within5days={within5days}/>} 
+         />
         <Route path="/transactions" element={<Transactions balance={balance} transactions={transactions} />} />
         <Route path="/budgets" element={<Budgets />} />
-        <Route path="/pots" element={<Pots />} />
-        <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} />} />
+        <Route path="/pots" element={<Pots recurringBills={recurringBills} />} />
+        <Route path="/recurring-bills" element={
+          <RecurringBills 
+          recurringBills={recurringBills} 
+          paidBills={paidBills} 
+          totalUpcoming={totalUpcoming}
+          within5days={within5days}/>} />
       </Routes>
     </div>
   );

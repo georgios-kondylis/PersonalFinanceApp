@@ -14,8 +14,8 @@ const HomePage = ({ transactions, budgets, pots, balance, recurringBills }) => {
 
   return (
     <section className="section">
-      <div className="flex flex-col gap-6 h-full">
-        <h1 className="txt5 mb-[10px]">Overview</h1>
+      <div className="flex flex-col headerGAP h-full">
+        <h1 className="txt5">Overview</h1>
 
         {/* Balance Section */}
         <div className="flex flex-wrap gap-4 justify-between">
@@ -30,9 +30,9 @@ const HomePage = ({ transactions, budgets, pots, balance, recurringBills }) => {
         </div>
 
         {/* Main Layout */}
-        <div className="flex w-full gap-[25px] max-1250:flex-col">
+        <div className="flex w-full GAP max-1250:flex-col">
          
-          <div className="flex flex-col gap-[25px] w-[60%] max-1250:w-full">
+          <div className="flex flex-col GAP w-[60%] max-1250:w-full">
               {/* Pots Box */}
             <div className="gridBox h-fit">
               <PotsBox pots={pots} />
@@ -58,7 +58,7 @@ const HomePage = ({ transactions, budgets, pots, balance, recurringBills }) => {
             </div>
           </div>
         
-          <div className="flex flex-col gap-[25px] w-[40%] max-1250:w-full">
+          <div className="flex flex-col GAP w-[40%] max-1250:w-full">
                  {/* Budgets Section */}
             <div className="gridBox flex flex-col items-center justify-center">
               <div className="flex items-center mb-[20px] sm:mb-[40px] justify-between w-full">

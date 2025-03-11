@@ -110,6 +110,9 @@ body{
 .gridBox {@apply p-[30px] rounded-[10px] bg-white}
 .transition1 {@apply transition-all ease-in-out duration-150 }
 .thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
+.thinSubText2 {@apply text-[12px] text-[#fefefe] font-light font-sans tracking-[0.7px]}
+.thinSubTextGreen {@apply text-[13px] text-[#277c78] font-semibold font-sans tracking-[0.5px]}
+.thinSubTextRed {@apply text-[12px] text-[#e02b2b] font-sans tracking-[0.5px]}
 .section {@apply beige1 px-[35px] py-[30px] flex flex-col w-full min-h-screen max-950:pb-[100px]}
 
 .text_svg {
@@ -125,4 +128,7 @@ body{
   color: black;
   fill: black !important;
 }
+
+.GAP {@apply gap-[25px]}
+.headerGAP {@apply gap-[35px]}
 
