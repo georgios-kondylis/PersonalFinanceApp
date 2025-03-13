@@ -27,9 +27,6 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
       if (selectedOption === "Oldest") {
         return new Date(a.date) - new Date(b.date);
       }
-      if (selectedOption === "Highest" || selectedOption === "Amount") {
-        return a.amount - b.amount;
-      }
       if (selectedOption === "Lowest") {
         return b.amount - a.amount;
       }

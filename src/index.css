@@ -128,7 +128,9 @@ body{
   color: black;
   fill: black !important;
 }
-
+h4{
+  color: #d0d0d0;
+}
 .GAP {@apply gap-[25px]}
 .headerGAP {@apply gap-[35px]}
 
