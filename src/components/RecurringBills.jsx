@@ -3,8 +3,47 @@ import { formatDate } from "../utils";
 import { formatAmount } from "../utils";
 import SearchSort from "./ui/SearchSort";
 import { getOrdinalSuffix } from "../utils";
+import { useState, useEffect } from "react";
 
 const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}) => {
+
+  const [selected, setSelected] = useState("");
+  const [sortedBills, setSortedBills] = useState([]);
+  const [searchResult, setSearchResult] = useState('');
+
+   // Set default sorted bills when component mounts
+   useEffect(() => {
+    setSortedBills(recurringBills);
+  }, [recurringBills]); // Using [] runs this effect only once on mount. If recurringBills updates later (e.g., from an API), sortedBills won't update, causing stale data.
+  
+  const handleChangeSelect = (event) => {
+    const selectedOption = event.target.value;
+    setSelected(selectedOption);
+
+    const sorted = [...recurringBills].sort((a, b) => {
+      if (selectedOption === "Latest") {
+        return new Date(b.Date) - new Date(a.date);
+      }
+      if (selectedOption === "Oldest") {
+        return new Date(a.date) - new Date(b.date);
+      }
+      if (selectedOption === "Highest" || selectedOption === "Amount") {
+        return a.amount - b.amount;
+      }
+      if (selectedOption === "Lowest") {
+        return b.amount - a.amount;
+      }
+      if (selectedOption === "A to Z") {
+        return a.name.localeCompare(b.name);
+      }
+      if (selectedOption === "Z to A") {
+        return b.name.localeCompare(a.name);
+      }
+      return 0; // Default case (if needed)
+    });
+
+    setSortedBills(sorted);
+  };
 
   const billsSum = recurringBills.reduce((acc, bill) => acc + bill.amount, 0);
   const billsSum2 = Math.abs(Number(billsSum));
@@ -12,9 +51,6 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
   const paidBillsSum = paidBills.reduce((acc, bill) => acc + Math.abs(bill.amount), 0);
   const upcomingBillsSum = totalUpcoming.reduce((acc, bill) => acc + Math.abs(bill.amount), 0);
   const within5daysSum = within5days.reduce((acc, bill) => acc + Math.abs(bill.amount), 0);
-
-  console.log(recurringBills)
-
   //----------------------------------------
 
   return (
@@ -61,10 +97,9 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
 
           <div id="Bills" className="flex flex-col GAP p-[30px] bg-white max-lg:w-[100%] w-[60%] rounded-[10px]">
             <SearchSort 
-              recurringBills={recurringBills} 
-              paidBills={paidBills} 
-              totalUpcoming={totalUpcoming}
-              within5days={within5days}
+              setSearchResult={setSearchResult}
+              handleChangeSelect = {handleChangeSelect}
+              selected={selected}
             />
               
             <div className="flex flex-col">
@@ -74,9 +109,11 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
                   <h1>Due date</h1>
                   <h1>Amount</h1>
                 </div>
-                
               </div>
-              {recurringBills.map((bill, i) => {
+
+              {sortedBills
+              .filter((bill) => bill.name.toLowerCase().includes(searchResult.toLowerCase()))
+              .map((bill, i) => {
                 const date = new Date(bill.date); // Assuming bill.dueDate is a valid date string
                 const day = date.getDate(); 
 
@@ -92,7 +129,6 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
                       <img className="w-[35px] rounded-full" src={bill.avatar} alt="" />
                       <h1>{bill.name}</h1>
                     </div>
-                    
                     
                     <div className="flex items-center justify-between w-[50%] max-sm:w-full">
                       <div className="flex items-center gap-[8px]">
@@ -119,61 +155,3 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
 };
 
 export default RecurringBills;
-
-
-
-//    <i class="fa-solid fa-circle-exclamation"></i>
-//    <i class="fa-solid fa-circle-check"></i>
-
-
-
-
-
-
-
-// Name: Pixel Playground
-// Category: Entertainment
-// amount: -10
-// Date: 2024-08-11T18:45:38.000Z
-
-
-// Name: Elevate Education
-// Category: Education
-// amount: -90
-// Date: 2024-08-05T11:12:10.000Z
-
-
-// Name: Spark Electric Solutions
-// Category: Services
-// amount: 100
-// Date: 2024-08-03T16:00:15.000Z
-
-
-// Name: Aqua Flow Utilities
-// Category: Utilities
-// amount: -50
-// Date: 2024-07-31T12:10:00.000Z
-
-
-// Name: Yuna Kim
-// Category: General
-// amount: 90
-// Date: 2024-07-29T11:15:27.000Z
-
-
-// Name: Harper Edwards
-// Category: Entertainment
-// amount: 55
-// Date: 2024-07-27T14:45:50.000Z
-
-
-// Name: Technova Innovations
-// Category: Technology
-// amount: -120
-// Date: 2024-07-25T10:15:30.000Z
-
-
-// Name: ByteWise
-// Category: Lifestyle
-// amount: -49.99
-// Date: 2024-07-23T09:35:14.000Z
