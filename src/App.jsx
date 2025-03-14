@@ -90,15 +90,15 @@ function App() {
            totalUpcoming={totalUpcoming}
            within5days={within5days}/>} 
          />
-        <Route path="/transactions" element={<Transactions balance={balance} transactions={transactions} />} />
+        <Route path="/transactions" element={<Transactions transactions={transactions} />} />
         <Route path="/budgets" element={<Budgets />} />
         <Route path="/pots" element={<Pots recurringBills={recurringBills} />} />
         <Route path="/recurring-bills" element={
           <RecurringBills 
-          recurringBills={recurringBills} 
-          paidBills={paidBills} 
-          totalUpcoming={totalUpcoming}
-          within5days={within5days}/>} />
+            recurringBills={recurringBills} 
+            paidBills={paidBills} 
+            totalUpcoming={totalUpcoming}
+            within5days={within5days}/>} />
       </Routes>
     </div>
   );

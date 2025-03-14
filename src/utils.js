@@ -15,6 +15,20 @@ export const custom_950px_breakpoint = () => {
   return windowWidth > 950; // Returns true if width > 850px
 };
 
+export const custom_maxMD_768_breakpoint = () => {
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize(); // Set initial width
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize); // clean up
+  }, []);
+
+  return windowWidth > 768; // Returns true if width > 768px
+};
+
 export const formatAmount = (amount) => {
   return `$${Number(amount).toLocaleString("en-US", {
     minimumFractionDigits: 2,

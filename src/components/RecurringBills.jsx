@@ -27,15 +27,19 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
       if (selectedOption === "Oldest") {
         return new Date(a.date) - new Date(b.date);
       }
-      if (selectedOption === "Lowest") {
-        return b.amount - a.amount;
-      }
       if (selectedOption === "A to Z") {
         return a.name.localeCompare(b.name);
       }
       if (selectedOption === "Z to A") {
         return b.name.localeCompare(a.name);
       }
+      if (selectedOption === "Highest") {
+        return a.amount - b.amount;
+      }
+      if (selectedOption === "Lowest") {
+        return b.amount - a.amount;
+      }
+      
       return 0; // Default case (if needed)
     });
 
@@ -56,10 +60,10 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
         <h1 className="txt5">Reccuring Bills</h1>
 
         <div id="Content_Container" className="GAP flex max-lg:flex-col flex-wrap">
+           {/*-------- BILLS AND SUMMARRY -------- */}
           <div id="Total_&_Summary" className="GAP flex max-sm:flex-wrap lg:flex-col max-lg:w-full w-[35%]">
-
             <div className="gray1 w-full p-[30px] gap-[40px] rounded-[10px] text-white flex flex-col justify-between
-             max-sm:flex-row max-sm:items-center max-sm:justify-center h-fit">
+               max-sm:flex-row max-sm:items-center max-sm:justify-center h-fit">
               {/* SVG */}
               <div className='fill-[#fff]'>
                  <svg height="28" viewBox="0 0 32 28" width="32" xmlns="http://www.w3.org/2000/svg">
@@ -91,7 +95,7 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
               </div>
             </div>
           </div>
-
+           {/*-------- ------------------ -------- */}
           <div id="Bills" className="flex flex-col GAP p-[30px] bg-white max-lg:w-[100%] w-[60%] rounded-[10px]">
             <SearchSort 
               setSearchResult={setSearchResult}
@@ -109,39 +113,46 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
               </div>
 
               {sortedBills
-              .filter((bill) => bill.name.toLowerCase().includes(searchResult.toLowerCase()))
-              .map((bill, i) => {
-                const date = new Date(bill.date); // Assuming bill.dueDate is a valid date string
-                const day = date.getDate(); 
+                .filter((bill) => bill.name.toLowerCase().includes(searchResult.toLowerCase()))
+                .map((bill, i) => {
+                  const date = new Date(bill.date);
+                  const day = date.getDate(); 
 
-                const currDate = new Date();
-                const today = currDate.getDate();
-                const dueDate = day - today;
-                          
-                const formattedDay = `${day}${getOrdinalSuffix(day)}`;// ex. monday 11th
+                  const currDate = new Date();
+                  const today = currDate.getDate();
+                  const dueDate = day - today;
 
-                return (
-                  <div key={i} className="flex gap-[5px] max-sm:flex-col max-sm:gap-[10px] justify-between border-b-[2px] py-[17px]">
-                    <div className="flex w-[45%] gap-[10px] items-center">
-                      <img className="w-[35px] rounded-full" src={bill.avatar} alt="" />
-                      <h1>{bill.name}</h1>
-                    </div>
-                    
-                    <div className="flex items-center justify-between w-[50%] max-sm:w-full">
-                      <div className="flex items-center gap-[8px]">
-                        <h1 className="thinSubTextGreen">
-                            Monthly {formattedDay} 
-                        </h1> 
-                        {dueDate <= 5 && dueDate >= 0 ?
-                          <i className="text-[14px] mb-[2px] text-[#c94736] fa-solid fa-circle-exclamation"></i> 
-                          : dueDate < today? <i className="text-[14px] text-[#277c78] fa-solid fa-circle-check"></i> :''}
+                  const formattedDay = `${day}${getOrdinalSuffix(day)}`; // e.g., Monday 11th
+
+                  const statusIcon = day < today ? // if bill date is less than today Paid ✅
+                    <i className="text-[14px] text-[#277c78] fa-solid fa-circle-check"></i> 
+                      : dueDate <= 5 && dueDate >= 0 ? // if bill date is 5 within 5days away Due soon ❗️
+                    <i className="text-[14px] mb-[2px] text-[#c94736] fa-solid fa-circle-exclamation"></i>
+                      : null;
+
+                  return (
+                    <div key={i} className="flex gap-[5px] max-sm:flex-col max-sm:gap-[10px] justify-between border-b-[2px] py-[17px]">
+                      <div className="flex w-[45%] gap-[10px] items-center">
+                        <img className="w-[35px] rounded-full" src={bill.avatar} alt="" />
+                        <h1>{bill.name}</h1>
                       </div>
 
-                      <h1 className={`${dueDate <= 5 && dueDate >= 0 ? 'text-[#c94736]': ''}`}>{formatAmount(Math.abs(Number(bill.amount)))}</h1>
+                      <div className="flex items-center justify-between w-[50%] max-sm:w-full">
+                        <div className="flex items-center gap-[8px]">
+                          <h1 className="thinSubTextGreen">
+                            Monthly {formattedDay} 
+                          </h1> 
+                          {statusIcon}
+                        </div>
+
+                        <h1 className={`${dueDate <= 5 && dueDate >= 0 ? "text-[#c94736]" : ""}`}>
+                          {formatAmount(Math.abs(Number(bill.amount)))}
+                        </h1>
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+
              
             </div>
           </div>

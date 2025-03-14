@@ -9,7 +9,16 @@ import BudgetDetails from "./ui/BudgetDetails";
 import RecBillsBox from "./ui/RecBillsBox";
 
 
-const HomePage = ({ transactions, budgets, pots, balance, recurringBills }) => {
+const HomePage = ({ 
+  transactions, 
+  budgets, 
+  pots, 
+  balance, 
+  recurringBills, 
+  paidBills, 
+  totalUpcoming, 
+  within5days}) => {
+
   const navigate = useNavigate();
 
   return (
@@ -80,7 +89,11 @@ const HomePage = ({ transactions, budgets, pots, balance, recurringBills }) => {
               </div>
 
                <div>
-                <RecBillsBox recurringBills={recurringBills}/>
+                 <RecBillsBox 
+                  recurringBills={recurringBills}
+                  paidBills={paidBills} 
+                  totalUpcoming={totalUpcoming}
+                  within5days={within5days}/>
                </div>
             </div>
           </div>

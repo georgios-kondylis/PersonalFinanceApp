@@ -3,7 +3,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 
-const SearchSort = ({ handleChangeSelect, selected, setSearchResult}) => {
+const SearchCategSort = ({ handleSortSelect, selected, setSearchResult}) => {
 
   return (
     <div id="Search_&_Sort" className="flex w-full justify-between gap-[10px]">
@@ -17,7 +17,7 @@ const SearchSort = ({ handleChangeSelect, selected, setSearchResult}) => {
       <div id="SortField" className="min-w-[130px] w-[170px] flex items-center gap-[10px] font-sans text-[#868686]">
         <p className="text-nowrap">Sort by</p> 
         <FormControl fullWidth sx={{ height: "50px" }}>
-          <Select labelId="" id="" value={selected === ''? 'Latest' : selected} onChange={handleChangeSelect}
+          <Select labelId="" id="" value={selected === ''? 'Latest' : selected} onChange={handleSortSelect}
             sx={{
               borderRadius: "10px", // for the whole box
               height: "50px", // set height for the select dropdown
@@ -88,6 +88,6 @@ const SearchSort = ({ handleChangeSelect, selected, setSearchResult}) => {
  
 };
 
-export default SearchSort;
+export default SearchCategSort;
 
 
