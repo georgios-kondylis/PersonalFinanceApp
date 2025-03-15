@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import { custom_maxMD_768_breakpoint } from "../../utils";
 
 const SearchCategSort = ({ 
   handleSortSelect, 
@@ -50,10 +51,10 @@ const SearchCategSort = ({
       <div className="flex gap-[30px] items-center">
         
         {/* Sort field */}
-        <div id="SortField" className="min-w-[130px] w-[170px] flex items-center gap-[10px] font-sans text-[#868686]">
+        <div id="SortField" className="min-w-[130px] w-[165px] flex items-center gap-[10px] font-sans text-[#868686]">
           <p className="text-nowrap">Sort by</p>
           <FormControl fullWidth sx={{ height: "50px" }}>
-            <Select value={sortSelected || 'Latest'}
+            <Select value={ sortSelected || 'Latest'}
               onChange={handleSortSelect}
               sx={{
                 borderRadius: "10px", 
@@ -83,7 +84,7 @@ const SearchCategSort = ({
         </div>
 
         {/* Category field */}
-        <div id="CategField" className="min-w-[130px] w-[270px] flex items-center gap-[10px] font-sans text-[#868686]">
+        <div id="CategField" className="min-w-[130px] w-[250px] flex items-center gap-[10px] font-sans text-[#868686]">
           <p className="text-nowrap">Category</p>
           <FormControl fullWidth sx={{ height: "50px"}}>
             <Select

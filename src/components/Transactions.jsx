@@ -3,6 +3,7 @@ import SearchCategSort from './ui/SearchCategSort';
 import TransacionLineFull from './ui/TransactionLineFull';
 import TransacionLineFullMobile from './ui/TransactionLineFullMobile';
 import { custom_maxMD_768_breakpoint } from '../utils';
+import SeCaSoMobile from './ui/SeCaSoMobile';
 
 const Transactions = ({transactions, }) => {
   const maxMD = custom_maxMD_768_breakpoint();
@@ -15,10 +16,10 @@ const Transactions = ({transactions, }) => {
   const [filteredTransactions, setFilteredTransactions] = useState(sortedTransactions);
 
   useEffect(() => {
-    let updatedTransactions = [...transactions];
+    let updatedTransactions = [...transactions]; // First reset the array with the original
   
     // Apply sorting
-    if (sortSelected) {
+    if (sortSelected) {  // After sort it by selection 
       updatedTransactions.sort((a, b) => {
         if (sortSelected === "Latest") {
           return new Date(b.date) - new Date(a.date);
@@ -43,7 +44,7 @@ const Transactions = ({transactions, }) => {
     }
   
     // Apply filtering
-    if (categSelected && categSelected !== "All Transactions") {
+    if (categSelected && categSelected !== "All Transactions") { // Then filter by category selection 
       updatedTransactions = updatedTransactions.filter(transaction => transaction.category === categSelected);
     }
   
@@ -99,14 +100,34 @@ const Transactions = ({transactions, }) => {
 
          <div className='flex flex-col GAP bg-white p-[30px] rounded-[10px]'>
             <div id='Search_Fields' className='flex w-full justify-between'>
-              <SearchCategSort  //  <---------------------------------------------
-                setSearchResult={setSearchResult} 
-                categSelected={categSelected}
-                sortSelected={sortSelected}
-                handleSortSelect={handleSortSelect}
-                handleCategSelect={handleCategSelect}
-                sortedTransactions={sortedTransactions}
-                />
+              {maxMD?
+               <SeCaSoMobile
+               setSearchResult={setSearchResult} 
+               categSelected={categSelected}
+               sortSelected={sortSelected}
+               handleSortSelect={handleSortSelect}
+               handleCategSelect={handleCategSelect}
+               sortedTransactions={sortedTransactions}
+               />
+              :
+              // <SearchCategSort 
+              // setSearchResult={setSearchResult} 
+              // categSelected={categSelected}
+              // sortSelected={sortSelected}
+              // handleSortSelect={handleSortSelect}
+              // handleCategSelect={handleCategSelect}
+              // sortedTransactions={sortedTransactions}
+              // />
+              <SeCaSoMobile
+              setSearchResult={setSearchResult} 
+              categSelected={categSelected}
+              sortSelected={sortSelected}
+              handleSortSelect={handleSortSelect}
+              handleCategSelect={handleCategSelect}
+              sortedTransactions={sortedTransactions}
+              />
+              }
+             
             </div>
 
             <div id='Table_Container'>
@@ -129,9 +150,9 @@ const Transactions = ({transactions, }) => {
 
                   return (
                     maxMD? 
-                    (<TransacionLineFull key={i} amount={transaction.amount} category={transaction.category} date={transaction.date} avatar={transaction.avatar} name={transaction.name}/>)
-                     : 
                     (<TransacionLineFullMobile key={i} amount={transaction.amount} category={transaction.category} date={transaction.date} avatar={transaction.avatar} name={transaction.name}/>)
+                    :
+                    (<TransacionLineFull key={i} amount={transaction.amount} category={transaction.category} date={transaction.date} avatar={transaction.avatar} name={transaction.name}/>)
                   )
                 })}
               </div>

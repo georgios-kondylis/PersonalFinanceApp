@@ -26,7 +26,7 @@ export const custom_maxMD_768_breakpoint = () => {
     return () => window.removeEventListener("resize", handleResize); // clean up
   }, []);
 
-  return windowWidth > 768; // Returns true if width > 768px
+  return windowWidth < 768; // Returns true if width < 768px
 };
 
 export const formatAmount = (amount) => {
