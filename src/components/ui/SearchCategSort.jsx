@@ -1,8 +1,11 @@
+// SearchCategSort.jsx
+
 import React, { useState } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import { custom_maxMD_768_breakpoint } from "../../utils";
+import { sortOptions } from "../../utils";
+import { categoryOptions } from "../../utils";
 
 const SearchCategSort = ({ 
   handleSortSelect, 
@@ -12,35 +15,11 @@ const SearchCategSort = ({
   setSearchResult 
 }) => {
 
-
-  const sortOptions = [   // Sort options array
-    { value: "Latest", label: "Latest" },
-    { value: "Oldest", label: "Oldest" },
-    { value: "A to Z", label: "A to Z" },
-    { value: "Z to A", label: "Z to A" },
-    { value: "Highest", label: "Highest" },
-    { value: "Lowest", label: "Lowest" }
-  ];
-
-  const categoryOptions = [   // Category options array
-    { value: "All Transactions", label: "All Transactions" },
-    { value: "Entertainment", label: "Entertainment" },
-    { value: "Bills", label: "Bills" },
-    { value: "Groceries", label: "Groceries" },
-    { value: "Dining Out", label: "Dining Out" },
-    { value: "Transportation", label: "Transportation" },
-    { value: "Personal Care", label: "Personal Care" },
-    { value: "Education", label: "Education" },
-    { value: "Lifestyle", label: "Lifestyle" },
-    { value: "Shoping", label: "Shoping" },
-    { value: "General", label: "General" }
-  ];
-
   return (
     <div id="Search_&_Sort" className="flex w-full justify-between gap-[10px]">
       
       {/* Search field */}
-      <div id="SearchField" className="h-[50px] w-[40%] max-w-[300px] font-sans p-[10px] border hover:border-[black] rounded-[10px] flex items-center">
+      <div id="SearchField" className="h-[50px] w-[40%] max-w-[340px] font-sans p-[10px] border hover:border-[black] rounded-[10px] flex items-center">
         <input className="outline-none h-full flex-1"
           type="text" name="" id="" placeholder="Search Bills"
           onChange={(e) => setSearchResult(e.target.value)}

@@ -106,3 +106,26 @@ export const dataJson = {
     expenses: 1700.5,
   },
 };
+
+// Transactions Dropdown seect filters
+export const sortOptions = [   // Sort options array
+  { value: "Latest", label: "Latest" },
+  { value: "Oldest", label: "Oldest" },
+  { value: "A to Z", label: "A to Z" },
+  { value: "Z to A", label: "Z to A" },
+  { value: "Highest", label: "Highest" },
+  { value: "Lowest", label: "Lowest" }
+];
+export const categoryOptions = [   // Category options array
+  { value: "All Transactions", label: "All Transactions" },
+  { value: "Entertainment", label: "Entertainment" },
+  { value: "Bills", label: "Bills" },
+  { value: "Groceries", label: "Groceries" },
+  { value: "Dining Out", label: "Dining Out" },
+  { value: "Transportation", label: "Transportation" },
+  { value: "Personal Care", label: "Personal Care" },
+  { value: "Education", label: "Education" },
+  { value: "Lifestyle", label: "Lifestyle" },
+  { value: "Shopping", label: "Shopping" },
+  { value: "General", label: "General" }
+];

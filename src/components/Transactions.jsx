@@ -1,3 +1,5 @@
+// Transactions.jsx
+
 import React, { useEffect, useState } from 'react';
 import SearchCategSort from './ui/SearchCategSort';
 import TransacionLineFull from './ui/TransactionLineFull';
@@ -7,6 +9,8 @@ import SeCaSoMobile from './ui/SeCaSoMobile';
 
 const Transactions = ({transactions, }) => {
   const maxMD = custom_maxMD_768_breakpoint();
+  const [categDropDownOpen ,setCategDropDownOpen] = useState(false)
+  const [sortDropDownOpen ,setSortDropDownOpen] = useState(false)
   
   const [searchResult, setSearchResult] = useState('');
 
@@ -80,7 +84,6 @@ const Transactions = ({transactions, }) => {
 
     setSortedTransactions(sorted);
   };
-
   const handleCategSelect = (event) => {
     const selectedOption = event.target.value;
     setCategSelected(selectedOption);
@@ -93,8 +96,51 @@ const Transactions = ({transactions, }) => {
     }
   };
 
+  const mobileSelectSort = (value) => {
+    setSortSelected(value);
+
+    const sorted = [...transactions].sort((a, b) => {
+      if (value === "Latest") {
+        return new Date(b.Date) - new Date(a.date);
+      }
+      if (value === "Oldest") {
+        return new Date(a.date) - new Date(b.date);
+      }
+      if (value === "A to Z") {
+        return a.name.localeCompare(b.name);
+      }
+      if (value === "Z to A") {
+        return b.name.localeCompare(a.name);
+      }
+      if (value === "Highest") {
+        return b.amount - a.amount;
+      }
+      if (value === "Lowest") {
+        return a.amount - b.amount;
+      }
+      
+      return 0; // Default case (if needed)
+    });
+
+    setSortedTransactions(sorted);
+  };
+
+  const mobileSelectCateg = (value) => {
+    setCategSelected(value);
+    if (value === categSelected) { return ''} // if you reselect the selected do nothing
+    if (value === 'All transactions') {
+      setFilteredTransactions(sortedTransactions); // Reset to full list
+      setCategDropDownOpen(false);
+    } else {
+      const filtered = sortedTransactions.filter((transaction) => transaction.category === value);
+      setFilteredTransactions(filtered);
+      setCategDropDownOpen(false);
+    }
+  };
+  
+
   return (
-    <section className='section'>
+    <section className='section' onClick={()=> {setCategDropDownOpen(false); setSortDropDownOpen(false);}}> 
       <div className='flex flex-col headerGAP'>
          <h1 className='txt5'>Transactions</h1>
 
@@ -103,22 +149,16 @@ const Transactions = ({transactions, }) => {
               {maxMD?
                <SeCaSoMobile
                setSearchResult={setSearchResult} 
+               categDropDownOpen={categDropDownOpen} setCategDropDownOpen={setCategDropDownOpen}
+               sortDropDownOpen={sortDropDownOpen}   setSortDropDownOpen={setSortDropDownOpen}
                categSelected={categSelected}
                sortSelected={sortSelected}
-               handleSortSelect={handleSortSelect}
-               handleCategSelect={handleCategSelect}
+               mobileSelectSort={mobileSelectSort}
+               mobileSelectCateg={mobileSelectCateg}
                sortedTransactions={sortedTransactions}
                />
               :
-              // <SearchCategSort 
-              // setSearchResult={setSearchResult} 
-              // categSelected={categSelected}
-              // sortSelected={sortSelected}
-              // handleSortSelect={handleSortSelect}
-              // handleCategSelect={handleCategSelect}
-              // sortedTransactions={sortedTransactions}
-              // />
-              <SeCaSoMobile
+              <SearchCategSort 
               setSearchResult={setSearchResult} 
               categSelected={categSelected}
               sortSelected={sortSelected}
@@ -167,3 +207,13 @@ const Transactions = ({transactions, }) => {
 };
 
 export default Transactions;
+
+
+
+
+  // if (value === 'All Transactions') {
+    //   setFilteredTransactions(sortedTransactions); // Reset to full list
+    // } else {
+    //   const filtered = sortedTransactions.filter((transaction) => transaction.category === value);
+    //   setFilteredTransactions(filtered);
+    // }

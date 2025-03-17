@@ -134,3 +134,5 @@ h4{
 .GAP {@apply gap-[25px]}
 .headerGAP {@apply gap-[35px]}
 
+.mobile_dropdown_container_category {@apply absolute font-sans h-[302px] overflow-y-auto right-0 flex flex-col py-[10px] px-[15px] bg-white w-[165px] rounded-[10px] shadow-[0px_2px_10px_rgba(0,0,0,0.4)] mt-[40px] items-start }
+
