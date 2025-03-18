@@ -28,6 +28,19 @@ export const custom_maxMD_768_breakpoint = () => {
 
   return windowWidth < 768; // Returns true if width < 768px
 };
+export const custom_470_breakpoint = () => {
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    handleResize(); // Set initial width
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize); // clean up
+  }, []);
+
+  return windowWidth < 470; // Returns true if width < 470px
+};
 
 export const formatAmount = (amount) => {
   return `$${Number(amount).toLocaleString("en-US", {

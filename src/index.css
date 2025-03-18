@@ -114,6 +114,7 @@ html, body{
 
 .gridBox {@apply p-[30px] rounded-[10px] bg-white}
 .transition1 {@apply transition-all ease-in-out duration-150 }
+.transition2 {@apply transition-all ease-in-out duration-500 }
 .thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
 .thinSubText2 {@apply text-[12px] text-[#fefefe] font-light font-sans tracking-[0.7px]}
 .thinSubTextGreen {@apply text-[13px] text-[#277c78] font-semibold font-sans tracking-[0.5px]}
