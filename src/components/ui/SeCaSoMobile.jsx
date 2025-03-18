@@ -19,7 +19,7 @@ const SeCaSoMobile = ({
 
 
   return (
-    <div id="Search_&_Sort" className="flex w-full justify-between gap-[10px]">
+    <div id="Search_&_Sort" className="flex w-full justify-between gap-[18px]">
       
       {/* Search field */}
       <div id="SearchField" className="h-[50px] w-[100%] min-w-[140px] max-w-[300px] font-sans p-[10px] border hover:border-[black] rounded-[10px] flex items-center">
@@ -30,7 +30,7 @@ const SeCaSoMobile = ({
         <i className="fa-solid fa-magnifying-glass"></i>
       </div>
 
-      <div className="flex gap-[30px] items-center">
+      <div className="flex gap-[25px] items-center">
         <div id="SVG_SORT_PAPER" className="relative"> 
           <svg fill="none" height="22" viewBox="0 0 16 15" width="25" xmlns="http://www.w3.org/2000/svg"
            className="fill-[#201f24] cursor-pointer hover:scale-[1.2] transition1"

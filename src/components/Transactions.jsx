@@ -6,6 +6,7 @@ import TransacionLineFull from './ui/TransactionLineFull';
 import TransacionLineFullMobile from './ui/TransactionLineFullMobile';
 import { custom_maxMD_768_breakpoint } from '../utils';
 import SeCaSoMobile from './ui/SeCaSoMobile';
+import PaginationControls from './ui/PaginationControls';
 
 const Transactions = ({transactions, }) => {
   const maxMD = custom_maxMD_768_breakpoint();
@@ -18,6 +19,17 @@ const Transactions = ({transactions, }) => {
   const [categSelected, setCategSelected] = useState('');
   const [sortedTransactions, setSortedTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState(sortedTransactions);
+
+  // --------  Pagination variables  --------
+  const [currentPage, setCurrentPage] = useState(1);
+  const transactionsPerPage = 10;
+
+  //                 Get transactions for current page
+  const totalPages = Math.ceil(filteredTransactions.length / transactionsPerPage);
+  const indexOfLastTransaction = currentPage * transactionsPerPage;
+  const indexOfFirstTransaction = indexOfLastTransaction - transactionsPerPage;
+  const paginationTransactions = filteredTransactions.slice(indexOfFirstTransaction, indexOfLastTransaction);
+  // ----------------------------------------
 
   useEffect(() => {
     let updatedTransactions = [...transactions]; // First reset the array with the original
@@ -87,6 +99,7 @@ const Transactions = ({transactions, }) => {
   const handleCategSelect = (event) => {
     const selectedOption = event.target.value;
     setCategSelected(selectedOption);
+    setCurrentPage(1);
 
     if (selectedOption === 'All transactions') {
       setFilteredTransactions(sortedTransactions); // Reset to full list
@@ -95,6 +108,7 @@ const Transactions = ({transactions, }) => {
       setFilteredTransactions(filtered);
     }
   };
+
 
   const mobileSelectSort = (value) => {
     setSortSelected(value);
@@ -124,9 +138,9 @@ const Transactions = ({transactions, }) => {
 
     setSortedTransactions(sorted);
   };
-
   const mobileSelectCateg = (value) => {
     setCategSelected(value);
+    setCurrentPage(1);
     if (value === categSelected) { return ''} // if you reselect the selected do nothing
     if (value === 'All transactions') {
       setFilteredTransactions(sortedTransactions); // Reset to full list
@@ -144,7 +158,7 @@ const Transactions = ({transactions, }) => {
       <div className='flex flex-col headerGAP'>
          <h1 className='txt5'>Transactions</h1>
 
-         <div className='flex flex-col GAP bg-white p-[30px] rounded-[10px]'>
+         <div className='flex flex-col gap-[10px] bg-white p-[30px] rounded-[10px]'>
             <div id='Search_Fields' className='flex w-full justify-between'>
               {maxMD?
                <SeCaSoMobile
@@ -184,7 +198,7 @@ const Transactions = ({transactions, }) => {
               </div>
 
               <div id='Transactions'>
-                {filteredTransactions
+                {paginationTransactions
                 .filter((tran) => tran.name.toLowerCase().includes(searchResult.toLowerCase()))
                 .map((transaction, i) => {
 
@@ -196,6 +210,13 @@ const Transactions = ({transactions, }) => {
                   )
                 })}
               </div>
+
+              {/* Pagination Controls */}
+              <PaginationControls 
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}/>
+
             </div>
          </div>
 
@@ -207,13 +228,3 @@ const Transactions = ({transactions, }) => {
 };
 
 export default Transactions;
-
-
-
-
-  // if (value === 'All Transactions') {
-    //   setFilteredTransactions(sortedTransactions); // Reset to full list
-    // } else {
-    //   const filtered = sortedTransactions.filter((transaction) => transaction.category === value);
-    //   setFilteredTransactions(filtered);
-    // }

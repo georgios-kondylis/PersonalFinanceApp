@@ -7,7 +7,7 @@ const TransacionLineFull = ({name, avatar, date, amount, category}) => {
   const amountClass = amount < 0 ? "" : "text-green-600";
 
   return (
-    <div className="border-b py-[20px] flex items-center justify-between gap-[12%]">
+    <div className="border-b py-[14px] flex items-center justify-between gap-[12%]">
       <div className='flex items-center justify-between w-[50%]'>
         <div id='AVATAR_NAME' className="flex items-center gap-[20px]">
           <img className="w-[40px] rounded-full" src={avatar} alt="" />

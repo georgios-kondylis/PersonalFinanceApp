@@ -2,9 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-body{
+html, body{
   font-family: 'Public Sans', sans-serif;
-   line-height: 120%;
+  line-height: 120%;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden; /* Disable horizontal scrolling */
+  margin: 0;
+  padding: 0;
 }
 :root {
   --beige1: #F8f4f0;
