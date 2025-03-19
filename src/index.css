@@ -117,6 +117,7 @@ html, body{
 .transition2 {@apply transition-all ease-in-out duration-500 }
 .thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
 .thinSubText2 {@apply text-[12px] text-[#fefefe] font-light font-sans tracking-[0.7px]}
+.thinSubText_POTS {@apply font-sans font-[400] text-[14px] text-[#636363]}
 .thinSubTextGreen {@apply text-[13px] text-[#277c78] font-semibold font-sans tracking-[0.5px]}
 .thinSubTextRed {@apply text-[12px] text-[#e02b2b] font-sans tracking-[0.5px]}
 .section {@apply beige1 px-[35px] py-[30px] flex flex-col w-full min-h-screen max-950:pb-[100px]}

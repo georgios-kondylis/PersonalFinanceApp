@@ -1,86 +1,89 @@
-import React from "react";
-import { formatDate } from "../utils";
+import React, { useState } from "react";
+import { formatCurrency } from "../utils";
 
-const RecurringBills = ({ recurringBills }) => {
+const Pots = ({pots}) => {
+  const [activePotIndex, setActivePotIndex] = useState(null); // Track active pot
 
-  const paidBills = recurringBills.filter((bill) => bill.amount < 0);
-  const paidBillsAmount = paidBills.reduce((acc, bill) => acc + bill.amount ,0); 
+  return (
+    <section className="section">
+      <div id="all_container" className="flex flex-col GAP">
 
+        <div id="HEADER" className="flex w-full items-center justify-between font-sans">
+          <p className="txt5">Pots</p>
 
-  return (   //  remove gap
-    <div className="gap-4 section">
-      {recurringBills.map((bill, index) => (
-        <div key={index} className="txt1 flex gap-5">
-          <img src={bill.avatar} alt={bill.name} width={50} height={50} />
-          <div>
-          <p>Name: {bill.name}</p>
-          <p>Category: {bill.category}</p>
-          <p>amount: {bill.amount}</p>
-          <p>Date: {formatDate(bill.date)}</p>
-          </div>
-
+          <button className="gray1 text-white px-[15px] py-[17px] text-[16px] rounded-[10px] font-sans">
+            <p>+ Add new Pot</p>
+          </button>
         </div>
-      ))}
-      <p>Paid : {paidBills.length}, amount: {paidBillsAmount}</p>
-    </div>
+
+        <div id="POTS_CONTAINER" className="grid grid-cols-2 max-lg:grid-cols-1 w-full GAP flex-wrap place-items-center">
+
+          {pots.map((pot, i) => {
+            const themeColor = pot.theme;
+            const percent = ((pot.total / pot.target) * 100);
+            const formattedPercent = percent % 1 === 0 ? percent.toFixed(1) : percent.toFixed(2); // so it's not showing double 00 like 1.00%
+            const dotsActive = activePotIndex === i;
+            
+          return (
+          <div key={i} className="w-[100%] flex flex-col justify-between flex-1 max-w-[700px] h-[300px] bg-[#fff] rounded-[10px] p-[20px]">
+            <div id="TOP_ROW" className="flex justify-between items-center">
+              <div className="flex items-center gap-[15px]">
+                <div className="w-[20px] h-[20px] rounded-full" style={{ backgroundColor: themeColor }}></div>
+                <p>{pot.name}</p>
+              </div>
+
+              <div id="DOTS" className="relative flex gap-[2.5px] items-center cursor-pointer px-[10px] py-[7px]" // added padding, easier to click 
+                   onClick={() => setActivePotIndex(dotsActive ? null : i)}>
+                <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
+                <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
+                <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
+
+                {dotsActive && 
+                 <div id="EDIT_DELETE" className="absolute top-[35px] right-[0] w-fit text-nowrap font-sans text-[12px] bg-white border rounded-[10px] p-[10px] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+                  <p className="border-b pb-[5px]">Edit pot</p>
+                  <p className="pt-[5px] text-RED">Delete pot</p>
+                </div>
+                }
+               
+              </div>
+            </div>
+
+            <div id="MIDDLE_ROW" className="flex gap-[15px] flex-col">
+              <div className="flex items-center justify-between">
+                <p className="thinSubText_POTS">Total Saved</p>
+                <p className="txt5">{formatCurrency(pot.total)}</p>
+              </div>
+
+              <div className="flex flex-col gap-[10px] items-center justify-between">
+                <div id="PROGRESS_BAR" className="w-full rounded-full bg-[#d0d0d0] h-[7.5px]">
+                   <div className="rounded-full h-full" style={{ backgroundColor: themeColor, width: `${percent}%` }}></div>
+                </div>
+                
+                <div id="PERCENT__TARGET" className="w-full flex justify-between">
+                  <p className="font-sans text-[13px] text-[#6c6c6c]">
+                    <span className="font-[700]">{formattedPercent}</span>%
+                  </p>
+                  <p className="thinSubText_POTS">target of ${pot.target.toLocaleString("de-DE")}</p> {/* 2.000 instead of 2000 */}
+                </div>
+              </div>
+
+            </div>
+
+            <div id="BOTTOM_ROW" className="flex w-full gap-[15px]">
+              <button className="flex flex-1 justify-center items-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE">
+                + Add money
+              </button>
+              <button className="flex flex-1 items-center justify-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE">
+                Withdraw
+              </button>
+            </div>
+          </div>
+          )})}
+          
+        </div>
+      </div>
+    </section>
   );
 };
 
-export default RecurringBills;
-
-
-
-
-
-
-
-
-
-
-
-// Name: Pixel Playground
-// Category: Entertainment
-// amount: -10
-// Date: 2024-08-11T18:45:38.000Z
-
-
-// Name: Elevate Education
-// Category: Education
-// amount: -90
-// Date: 2024-08-05T11:12:10.000Z
-
-
-// Name: Spark Electric Solutions
-// Category: Services
-// amount: 100
-// Date: 2024-08-03T16:00:15.000Z
-
-
-// Name: Aqua Flow Utilities
-// Category: Utilities
-// amount: -50
-// Date: 2024-07-31T12:10:00.000Z
-
-
-// Name: Yuna Kim
-// Category: General
-// amount: 90
-// Date: 2024-07-29T11:15:27.000Z
-
-
-// Name: Harper Edwards
-// Category: Entertainment
-// amount: 55
-// Date: 2024-07-27T14:45:50.000Z
-
-
-// Name: Technova Innovations
-// Category: Technology
-// amount: -120
-// Date: 2024-07-25T10:15:30.000Z
-
-
-// Name: ByteWise
-// Category: Lifestyle
-// amount: -49.99
-// Date: 2024-07-23T09:35:14.000Z
+export default Pots;

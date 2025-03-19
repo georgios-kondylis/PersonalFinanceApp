@@ -12,9 +12,10 @@ export default {
         '1250': '1250px'
       },
       colors:{
-        Green:'#277c78',
-        Beige1:'#F8f4f0',
-        Blue:'#3f82b2',
+        GREEN:'#277c78',
+        BEIGE:'#F8f4f0',
+        BLUE:'#3f82b2',
+        RED:'#c94736',
       }
     },
   },
