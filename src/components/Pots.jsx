@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import { formatCurrency } from "../utils";
+import Header from "./ui/Pots/Header";
+import DeletePot from "./ui/Pots/DelelePot";
+import EditPot from "./ui/Pots/EditPot";
 
 const Pots = ({pots}) => {
   const [activePotIndex, setActivePotIndex] = useState(null); // Track active pot
+  const [potToDelete, setPotToDelete] = useState(null); // Track the pot being deleted
+  const [potToEdit, setPotToEdit] = useState(null); // Track the pot being deleted
 
   return (
     <section className="section">
       <div id="all_container" className="flex flex-col GAP">
-
-        <div id="HEADER" className="flex w-full items-center justify-between font-sans">
-          <p className="txt5">Pots</p>
-
-          <button className="gray1 text-white px-[15px] py-[17px] text-[16px] rounded-[10px] font-sans">
-            <p>+ Add new Pot</p>
-          </button>
-        </div>
+        <Header/>
 
         <div id="POTS_CONTAINER" className="grid grid-cols-2 max-lg:grid-cols-1 w-full GAP flex-wrap place-items-center">
 
@@ -33,18 +31,23 @@ const Pots = ({pots}) => {
               </div>
 
               <div id="DOTS" className="relative flex gap-[2.5px] items-center cursor-pointer px-[10px] py-[7px]" // added padding, easier to click 
-                   onClick={() => setActivePotIndex(dotsActive ? null : i)}>
+                   onClick={() => setActivePotIndex(dotsActive? null : i)}>
                 <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                 <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                 <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
 
                 {dotsActive && 
                  <div id="EDIT_DELETE" className="absolute top-[35px] right-[0] w-fit text-nowrap font-sans text-[12px] bg-white border rounded-[10px] p-[10px] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
-                  <p className="border-b pb-[5px]">Edit pot</p>
-                  <p className="pt-[5px] text-RED">Delete pot</p>
+                  <p className="border-b pb-[5px] hover:scale-[1.1] transition1"
+                     onClick={() => setPotToEdit(pot)} >
+                    Edit pot
+                  </p>
+                  <p className="pt-[5px] text-RED hover:scale-[1.1] transition1"
+                     onClick={() => setPotToDelete(pot)}> {/* Store the actual pot object */}
+                    Delete pot
+                  </p>
                 </div>
                 }
-               
               </div>
             </div>
 
@@ -77,10 +80,21 @@ const Pots = ({pots}) => {
                 Withdraw
               </button>
             </div>
+
+             {/* ABSOLUTES | EDIT & DELETE */}
+            {potToEdit !== null && 
+            <EditPot 
+              setPotToEdit={setPotToEdit} 
+              pot={potToEdit} />}
+            {potToDelete !== null && 
+            <DeletePot 
+              setPotToDelete={setPotToDelete} 
+              pot={potToDelete} />}
           </div>
           )})}
           
         </div>
+       
       </div>
     </section>
   );
