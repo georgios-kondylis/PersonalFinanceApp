@@ -111,10 +111,11 @@ html, body{
 .small-linkIsActive .link-name {color: black;}
 
 /* ------------------------------------------------------------------------ */
-
+.editInputStyles {@apply px-[20px] cursor-pointer border border-[#7c7c7c] hover:border-[#121212] rounded-[10px] w-full outline-none p-[10px] text-[16px] font-sans font-[400]}
 .gridBox {@apply p-[30px] rounded-[10px] bg-white}
 .transition1 {@apply transition-all ease-in-out duration-150 }
 .transition2 {@apply transition-all ease-in-out duration-500 }
+.subText {@apply text-[13px] text-[#6a6a6a]}
 .thinSubText {@apply font-sans text-[13px] text-[#6a6a6a] font-light}
 .thinSubText2 {@apply text-[12px] text-[#fefefe] font-light font-sans tracking-[0.7px]}
 .thinSubText_POTS {@apply font-sans font-[400] text-[14px] text-[#636363]}
@@ -143,4 +144,9 @@ h4{
 
 .mobile_dropdown_container_category {@apply absolute font-sans h-[302px] overflow-y-auto right-0 flex flex-col py-[10px] px-[15px] bg-white w-[165px] rounded-[10px] shadow-[0px_2px_10px_rgba(0,0,0,0.4)] mt-[40px] items-start }
 .abs_center {@apply top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]}
+
+.themeButtonStyles {@apply flex items-center justify-between px-[16px] p-[10px] cursor-pointer border border-[#7c7c7c] hover:border-[#121212] rounded-[10px] w-full outline-none text-[16px] font-sans font-[400]}
+.themeButtonListStyles {@apply flex items-center justify-between px-[16px] p-[10px] cursor-pointer border-b w-full outline-none text-[16px] font-sans font-[400]}
+
+
 

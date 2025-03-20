@@ -142,3 +142,21 @@ export const categoryOptions = [   // Category options array
   { value: "Shopping", label: "Shopping" },
   { value: "General", label: "General" }
 ];
+
+export const themes = [
+  { name: "green", value: "#277c78" },
+  { name: "yellow", value: "#f3cdac" },
+  { name: "cyan", value: "#82c9d7" },
+  { name: "navy", value: "#626070" },
+  { name: "red", value: "#c94736" },
+  { name: "purple", value: "#826cb0" },
+  { name: "purple2", value: "#af81ba" },
+  { name: "turquoise", value: "#597c7c" },
+  { name: "brown", value: "#93674f" },
+  { name: "magenta", value: "#934f6f" },
+  { name: "blue", value: "#3f82b2" },
+  { name: "navyGray", value: "#97a0ac" },
+  { name: "armyGreen", value: "#7f9161" },
+  { name: "gold", value: "#cab361" },
+  { name: "orange", value: "#be6c49" }
+];
