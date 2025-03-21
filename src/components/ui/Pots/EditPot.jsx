@@ -19,26 +19,27 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
     setNewTheme({theme: theme.value, themeName: theme.name});
   };
   useEffect(() => { 
-    selectThemesOpen && setSelectThemesOpen(false); // Dropdown closes everytime thmee updatess
+    selectThemesOpen && setSelectThemesOpen(false); // Dropdown closes everytime theme updatess
   }, [newTheme]);
 
   const checkUsedThemes = () => {
     const usedThemes = new Set(pots.map(pot => pot.themeName));
+     // [Green, Yellow, Navy, etc..] new Set() ensures no doublicates
     
     return themes.map(theme => ({
-      ...theme,
+      ...theme, // then look through everytheme in themes nad if usedThemes.has(theme.name) its status becomes ...
       status: usedThemes.has(theme.name) ? "Already in use" : "Available"
     }));
   };
-  
-  console.log(checkUsedThemes());
+  const themesWithUsedStatus = checkUsedThemes()
+  console.log(themesWithUsedStatus);
 
 
   return (
     <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000027] overflow-y-hidden'>
       <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
 
-        <div className='flex justify-between items-center '>
+        <div id='HEAD_ROW' className='flex justify-between items-center '>
           <h1 className='txt5'>Edit Pot</h1>
           <svg className='cursor-pointer fill-[#737373] hover:fill-[black]' height="26" viewBox="0 0 26 26" width="26" xmlns="http://www.w3.org/2000/svg"
               onClick={() => setPotToEdit(null)}>
@@ -46,7 +47,7 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
           </svg>
         </div>
 
-        <p className='thinSubText'>
+        <p id='TEXT' className='thinSubText'>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum qui, nesciunt provident suscipit nihil, quasi tempora cumque, ad laboriosam placeat animi sed ex aspernatur. Iusto consequuntur eveniet harum culpa optio?
         </p>
 
@@ -75,7 +76,7 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
           <div id='NEW_THEME' className='w-full flex flex-col gap-[5px]'>
             <p className='subText'>Theme</p>
 
-            <div className='relative themeButtonStyles'
+            <div id='THEME_BUTTON' className='relative themeButtonStyles'
                     onClick={() => setSelectThemesOpen(prev => !prev)}>
               <div className='flex items-center gap-[11px]'>
                 <div className='rounded-full w-[18px] h-[18px]' style={{backgroundColor: newTheme.theme}}></div>
@@ -90,20 +91,17 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
              {/* ------------------------------------------------ */}
               {selectThemesOpen && // DROPDOWN THEME-LIST
               <div className='rounded-[10px] SHADOW absolute bottom-[-245px] w-[101%] h-[230px] right-[-2px] bg-[#fff] border px-[20px] py-[5px] flex flex-col overflow-y-auto'>
-                {themes.map((theme, i) => {
-
-                return(
+               {themesWithUsedStatus.map((theme, i) => (
                 <div key={i} id='EVERY_THEME_BUTTON' className='themeButtonListStyles hover:border-b-[#c3c3c3]'
-                        onClick={() => handleThemeChange(theme)} >
+                    onClick={() => handleThemeChange(theme)} >
                   <div className='flex items-center gap-[11px]'>
-                    <div className='rounded-full w-[18px] h-[18px]' style={{backgroundColor: theme.value}}></div>
+                    <div className='rounded-full w-[18px] h-[18px]' style={{ backgroundColor: theme.value }}></div>
                     <p>{theme.name}</p>
                   </div>
                   {theme.name === newTheme.themeName && <i className="text-[#277c78] fa-solid fa-circle-check"></i>}
-                  {isThemeInUse(theme.value) && <p className='thinSubText'>Already in use</p>}
-                </div>)
-
-                })}
+                  {theme.status === "Already in use" && theme.name !== newTheme.themeName && <p className='thinSubText'>{theme.status}</p>}
+                </div>
+              ))}
               </div>
               }
             </div>
