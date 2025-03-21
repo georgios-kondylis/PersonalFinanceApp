@@ -1,29 +1,13 @@
 import React from 'react'
 import { useState } from "react";
+import { themes } from '../../../utils';
+import { useEffect } from "react";
 
-const EditPot = ({setPotToEdit, pot}) => {
-  const [newPotName, setNewPotName] = useState(pot.name || "");
-  const [newTarget, setNewTarget] = useState(pot.target || "");
-  const [newTheme, setNewTheme] = useState(pot.theme || "");
-  const [selectThemesOpen, setSelectThemesOpen] = useState(false);
-
-  const themes = [
-    { name: "Green", value: "#277c78" },
-    { name: "Yellow", value: "#f3cdac" },
-    { name: "Cyan", value: "#82c9d7" },
-    { name: "Navy", value: "#626070" },
-    { name: "Red", value: "#c94736" },
-    { name: "Purple", value: "#826cb0" },
-    { name: "Turquoise", value: "#597c7c" },
-    { name: "Brown", value: "#93674f" },
-    { name: "Magenta", value: "#934f6f" },
-    { name: "Blue", value: "#3f82b2" },
-    { name: "NavyGray", value: "#97a0ac" },
-    { name: "ArmyGreen", value: "#7f9161" },
-    { name: "Gold", value: "#cab361" },
-    { name: "Orange", value: "#be6c49" }
-  ];
-  
+const EditPot = ({setPotToEdit, pot, pots}) => {
+  const [newPotName, setNewPotName] = useState(pot.name);
+  const [newTarget, setNewTarget] = useState(pot.target);
+  const [newTheme, setNewTheme] = useState({theme: pot.theme, themeName: pot.themeName});
+  const [selectThemesOpen, setSelectThemesOpen] = useState(false);  
 
   const handleTargetChange = (e) => {
     const value = e.target.value; 
@@ -31,10 +15,28 @@ const EditPot = ({setPotToEdit, pot}) => {
       setNewTarget(value);
     }
   };
+  const handleThemeChange = (theme) => {
+    setNewTheme({theme: theme.value, themeName: theme.name});
+  };
+  useEffect(() => { 
+    selectThemesOpen && setSelectThemesOpen(false); // Dropdown closes everytime thmee updatess
+  }, [newTheme]);
+
+  const checkUsedThemes = () => {
+    const usedThemes = new Set(pots.map(pot => pot.themeName));
+    
+    return themes.map(theme => ({
+      ...theme,
+      status: usedThemes.has(theme.name) ? "Already in use" : "Available"
+    }));
+  };
+  
+  console.log(checkUsedThemes());
+
 
   return (
-    <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000027] '>
-      <div className='absolute abs_center w-[520px] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
+    <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000027] overflow-y-hidden'>
+      <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
 
         <div className='flex justify-between items-center '>
           <h1 className='txt5'>Edit Pot</h1>
@@ -49,7 +51,7 @@ const EditPot = ({setPotToEdit, pot}) => {
         </p>
 
         <div id='TEXT_FIELDS' className='flex flex-col items-center gap-[17px]'>
-          <div id='NEW_NAME' className='w-full flex flex-col gap-[5px] mb-[20px]'>
+          <div id='NEW_NAME' className='w-full flex flex-col gap-[5px]'>
             <p className='subText'>Pot Name</p>
             <input className='editInputStyles' 
                   type="text" placeholder={pot.name} value={newPotName}
@@ -73,11 +75,11 @@ const EditPot = ({setPotToEdit, pot}) => {
           <div id='NEW_THEME' className='w-full flex flex-col gap-[5px]'>
             <p className='subText'>Theme</p>
 
-            <button className='relative themeButtonStyles'
+            <div className='relative themeButtonStyles'
                     onClick={() => setSelectThemesOpen(prev => !prev)}>
               <div className='flex items-center gap-[11px]'>
-                <div className='rounded-full w-[18px] h-[18px]' style={{backgroundColor: newTheme}}></div>
-                <p>Green</p>
+                <div className='rounded-full w-[18px] h-[18px]' style={{backgroundColor: newTheme.theme}}></div>
+                <p>{newTheme.themeName}</p>
               </div>
               {selectThemesOpen? 
               <i className="fa-solid fa-caret-up"></i>
@@ -87,22 +89,24 @@ const EditPot = ({setPotToEdit, pot}) => {
 
              {/* ------------------------------------------------ */}
               {selectThemesOpen && // DROPDOWN THEME-LIST
-              <div className='absolute bottom-[-20px] bg-[#fff] border p-[20px] flex flex-col w-full h-[400px] overflow-y-auto'>
+              <div className='rounded-[10px] SHADOW absolute bottom-[-245px] w-[101%] h-[230px] right-[-2px] bg-[#fff] border px-[20px] py-[5px] flex flex-col overflow-y-auto'>
                 {themes.map((theme, i) => {
 
                 return(
-                <button className='themeButtonListStyles'
-                        onClick={() => setSelectThemesOpen(prev => !prev)}>
+                <div key={i} id='EVERY_THEME_BUTTON' className='themeButtonListStyles hover:border-b-[#c3c3c3]'
+                        onClick={() => handleThemeChange(theme)} >
                   <div className='flex items-center gap-[11px]'>
                     <div className='rounded-full w-[18px] h-[18px]' style={{backgroundColor: theme.value}}></div>
                     <p>{theme.name}</p>
                   </div>
-                </button>
-                  )
+                  {theme.name === newTheme.themeName && <i className="text-[#277c78] fa-solid fa-circle-check"></i>}
+                  {isThemeInUse(theme.value) && <p className='thinSubText'>Already in use</p>}
+                </div>)
+
                 })}
               </div>
               }
-            </button>
+            </div>
 
           </div>
         </div>

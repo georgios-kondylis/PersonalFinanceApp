@@ -85,7 +85,8 @@ const Pots = ({pots}) => {
             {potToEdit !== null && 
             <EditPot 
               setPotToEdit={setPotToEdit} 
-              pot={potToEdit} />}
+              pot={potToEdit}
+              pots={pots} />}
             {potToDelete !== null && 
             <DeletePot 
               setPotToDelete={setPotToDelete} 

@@ -136,6 +136,7 @@ html, body{
   color: black;
   fill: black !important;
 }
+.SHADOW {@apply shadow-[0_0_10px_rgba(0,0,0,0.3)]}
 h4{
   color: #d0d0d0;
 }
@@ -146,7 +147,7 @@ h4{
 .abs_center {@apply top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]}
 
 .themeButtonStyles {@apply flex items-center justify-between px-[16px] p-[10px] cursor-pointer border border-[#7c7c7c] hover:border-[#121212] rounded-[10px] w-full outline-none text-[16px] font-sans font-[400]}
-.themeButtonListStyles {@apply flex items-center justify-between px-[16px] p-[10px] cursor-pointer border-b w-full outline-none text-[16px] font-sans font-[400]}
+.themeButtonListStyles {@apply flex items-center justify-between py-[10px] cursor-pointer border-b w-full outline-none text-[16px] font-sans font-[400]}
 
 
 
