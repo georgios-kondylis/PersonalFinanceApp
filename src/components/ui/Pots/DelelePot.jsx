@@ -8,7 +8,7 @@ const DeletePot = ({pot, setPotToDelete }) => {
   };
 
   return (
-    <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000027] '>
+    <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000026] '>
       <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
 
         <div className='flex justify-between items-center '>
@@ -24,7 +24,7 @@ const DeletePot = ({pot, setPotToDelete }) => {
         </p>
 
         <div className='flex flex-col items-center'>
-          <button className='red w-full rounded-[6px] py-[11px] text-[#fff] font-sans text-[14px] hover:text-[16px] transition1'>
+          <button className='red hover:bg-[#c94736ca] w-full rounded-[6px] py-[11px] text-[#fff] font-sans text-[14px] hover:text-[16px] transition1'>
             Yes, Confirm Deletion
           </button>
           <button className='w-full rounded-[10px] py-[11px] text-[#797979] font-sans text-[14px] hover:text-[16px] hover:text-[black] transition1'

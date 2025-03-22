@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
+import AddPot from './AddPot';
 
-const Header = () => {
+
+const Header = ({pots, addPotActive, setAddPotActive, }) => {
+
   return (
     <div id="HEADER" className="flex w-full items-center justify-between font-sans">
       <p className="txt5">Pots</p>
 
-      <button className="gray1 text-white px-[15px] py-[17px] text-[16px] rounded-[10px] font-sans">
+      <button className="gray1 text-white px-[15px] py-[17px] text-[16px] rounded-[10px] font-sans"
+              onClick={() => setAddPotActive(prev => !prev)}>
         <p>+ Add new Pot</p>
       </button>
+
+      {addPotActive && <AddPot pots={pots} setAddPotActive={setAddPotActive}/>}
     </div>
   )
 }

@@ -3,16 +3,19 @@ import { formatCurrency } from "../utils";
 import Header from "./ui/Pots/Header";
 import DeletePot from "./ui/Pots/DelelePot";
 import EditPot from "./ui/Pots/EditPot";
+import AddMoney from "./ui/Pots/AddMoney";
 
 const Pots = ({pots}) => {
-  const [activePotIndex, setActivePotIndex] = useState(null); // Track active pot
+  const [activePotIndex, setActivePotIndex] = useState(null);
   const [potToDelete, setPotToDelete] = useState(null); // Track the pot being deleted
-  const [potToEdit, setPotToEdit] = useState(null); // Track the pot being deleted
+  const [potToEdit, setPotToEdit] = useState(null);
+  const [addMoneyActive, setAddMoneyActive] = useState(false);
+  const [addPotActive, setAddPotActive] = useState(false);
 
   return (
     <section className="section">
       <div id="all_container" className="flex flex-col GAP">
-        <Header/>
+        <Header pots={pots} addPotActive={addPotActive} setAddPotActive={setAddPotActive}/>
 
         <div id="POTS_CONTAINER" className="grid grid-cols-2 max-lg:grid-cols-1 w-full GAP flex-wrap place-items-center">
 
@@ -73,10 +76,10 @@ const Pots = ({pots}) => {
             </div>
 
             <div id="BOTTOM_ROW" className="flex w-full gap-[15px]">
-              <button className="flex flex-1 justify-center items-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE">
+              <button className="potsButtonHover" onClick={() => setAddMoneyActive(prev => !prev)}>
                 + Add money
               </button>
-              <button className="flex flex-1 items-center justify-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE">
+              <button className="potsButtonHover">
                 Withdraw
               </button>
             </div>
@@ -91,6 +94,7 @@ const Pots = ({pots}) => {
             <DeletePot 
               setPotToDelete={setPotToDelete} 
               pot={potToDelete} />}
+            {addMoneyActive && <AddMoney pots={pots}  addMoneyActive={addMoneyActive} setAddMoneyActive={setAddMoneyActive}/>}
           </div>
           )})}
           

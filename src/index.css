@@ -148,6 +148,7 @@ h4{
 
 .themeButtonStyles {@apply flex items-center justify-between px-[16px] p-[10px] cursor-pointer border border-[#7c7c7c] hover:border-[#121212] rounded-[10px] w-full outline-none text-[16px] font-sans font-[400]}
 .themeButtonListStyles {@apply flex items-center justify-between py-[10px] cursor-pointer border-b w-full outline-none text-[16px] font-sans font-[400]}
+.potsButtonHover {@apply flex flex-1 justify-center items-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE hover:bg-white hover:border-[#abab98] hover:border border border-transparent}
 
 
 
