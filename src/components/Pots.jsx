@@ -9,8 +9,8 @@ const Pots = ({pots}) => {
   const [activePotIndex, setActivePotIndex] = useState(null);
   const [potToDelete, setPotToDelete] = useState(null); // Track the pot being deleted
   const [potToEdit, setPotToEdit] = useState(null);
-  const [addMoneyActive, setAddMoneyActive] = useState(false);
   const [addPotActive, setAddPotActive] = useState(false);
+  const [potToAddMoney, setPotToAddMoney] = useState(null);
 
   return (
     <section className="section">
@@ -76,7 +76,7 @@ const Pots = ({pots}) => {
             </div>
 
             <div id="BOTTOM_ROW" className="flex w-full gap-[15px]">
-              <button className="potsButtonHover" onClick={() => setAddMoneyActive(prev => !prev)}>
+              <button className="potsButtonHover" onClick={() => setPotToAddMoney(pot)}>
                 + Add money
               </button>
               <button className="potsButtonHover">
@@ -94,7 +94,14 @@ const Pots = ({pots}) => {
             <DeletePot 
               setPotToDelete={setPotToDelete} 
               pot={potToDelete} />}
-            {addMoneyActive && <AddMoney pots={pots}  addMoneyActive={addMoneyActive} setAddMoneyActive={setAddMoneyActive}/>}
+            {potToAddMoney !== null &&
+             <AddMoney
+              themeColor={themeColor}
+              percent={percent}
+              formattedPercent={formattedPercent}
+              pots={pots}
+              pot={potToAddMoney}
+              setPotToAddMoney={setPotToAddMoney}/>}
           </div>
           )})}
           
