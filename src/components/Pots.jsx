@@ -4,6 +4,7 @@ import Header from "./ui/Pots/Header";
 import DeletePot from "./ui/Pots/DelelePot";
 import EditPot from "./ui/Pots/EditPot";
 import AddMoney from "./ui/Pots/AddMoney";
+import Withdraw from "./ui/Pots/Withdraw";
 
 const Pots = ({pots}) => {
   const [activePotIndex, setActivePotIndex] = useState(null);
@@ -11,6 +12,7 @@ const Pots = ({pots}) => {
   const [potToEdit, setPotToEdit] = useState(null);
   const [addPotActive, setAddPotActive] = useState(false);
   const [potToAddMoney, setPotToAddMoney] = useState(null);
+  const [potToWithdaw, setPotToWithdaw] = useState(null);
 
   return (
     <section className="section">
@@ -79,7 +81,7 @@ const Pots = ({pots}) => {
               <button className="potsButtonHover" onClick={() => setPotToAddMoney(pot)}>
                 + Add money
               </button>
-              <button className="potsButtonHover">
+              <button className="potsButtonHover" onClick={() => setPotToWithdaw(pot)}>
                 Withdraw
               </button>
             </div>
@@ -96,12 +98,14 @@ const Pots = ({pots}) => {
               pot={potToDelete} />}
             {potToAddMoney !== null &&
              <AddMoney
-              themeColor={themeColor}
-              percent={percent}
-              formattedPercent={formattedPercent}
               pots={pots}
               pot={potToAddMoney}
               setPotToAddMoney={setPotToAddMoney}/>}
+            {potToWithdaw !== null &&
+            <Withdraw
+              pots={pots}
+              pot={potToWithdaw}
+              setPotToWithdaw={setPotToWithdaw}/>}
           </div>
           )})}
           
