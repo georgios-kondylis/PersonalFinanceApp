@@ -3,12 +3,56 @@ import { useState } from "react";
 import { themes } from '../../../utils';
 import { useEffect } from "react";
 
-const AddPot = ({pots, setAddPotActive}) => {
+const AddPot = ({pots, setAddPotActive, UPDATE}) => {
   const [newPotName, setNewPotName] = useState('');
-  const [newTarget, setNewTarget] = useState();
+  const [newTarget, setNewTarget] = useState(0);
   const [newTheme, setNewTheme] = useState('');
-  const [selectThemesOpen, setSelectThemesOpen] = useState(false);  
+  const [selectThemesOpen, setSelectThemesOpen] = useState(false);
+  const [customMessage, setCustomMessage] = useState('Pot Created successfully!');  
+  const [customMessageActive, setCustomMessageActive] = useState(false);  
+  const [succes, setSuccess] = useState(false);  
+  
+  const handleAddPot = async () => {
+    try {
+      if (!newPotName || !newTarget || !newTheme.theme || !newTheme.themeName) {
+        setCustomMessage('Please fill all the fields')
+        setCustomMessageActive(true);
+        setTimeout(() => {
+          setCustomMessageActive(false); 
+        }, 1000);
+      }
 
+      const res = await fetch('http://localhost:5000/api/pots', {
+        method: 'POST',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({
+          name: newPotName,
+          target: parseInt(newTarget), // Ensure it's a number
+          theme: newTheme.theme,
+          themeName: newTheme.themeName
+        }),
+      });
+  
+      const responseData = await res.json(); // Log the full response
+      console.log("API Response:", responseData);
+  
+      if (!res.ok) {
+        throw new Error(`Failed to create pot: ${responseData.error || res.statusText}`);
+      }
+
+      UPDATE()
+      setCustomMessage('Pot Created successfully!')
+      setCustomMessageActive(true);
+      setSuccess(true);
+      setTimeout(() => {
+        setCustomMessageActive(false); 
+        setAddPotActive(false); // close pop up
+      }, 1000);
+    } catch (error) {
+      console.error("Error adding pot:", error);
+    }
+  };
+  
   const handleTargetChange = (e) => {
     const value = e.target.value; 
     if (value === "" || (/^[1-9]\d*$/.test(value))) { 
@@ -80,10 +124,7 @@ const AddPot = ({pots, setAddPotActive}) => {
                 <div className={`${!newTheme.themeName && 'hidden' } rounded-full w-[18px] h-[18px]`} style={{backgroundColor: newTheme.theme}}></div>
                 <p className={`${!newTheme.themeName? 'text-[#909090d9]' : 'text-[black]'}`}>{newTheme.themeName ? newTheme.themeName : 'Chose theme color'}</p>
               </div>
-              {selectThemesOpen? 
-              <i className="fa-solid fa-caret-up"></i>
-               :
-              <i className="fa-solid fa-caret-down"></i>
+              {selectThemesOpen? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
               }
 
              {/* ------------------------------------------------ */}
@@ -107,10 +148,13 @@ const AddPot = ({pots, setAddPotActive}) => {
           </div>
         </div>
 
-        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
+        <button onClick={handleAddPot} id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
           Add Pot
         </button>
       
+        <div id='POP_UP_MESSAGE' className={`absolute z-10 rounded left-[50%] translate-x-[-50%] ${customMessageActive ? 'bottom-[-50px] opacity-100' : 'bottom-[0px] opacity-0'} bg-white text-black border w-[80%] h-[30px] flex items-center justify-center transition2`}>
+          <p className='font-sans font-[700]'>{customMessage} {succes? <i className="text-GREEN ml-[5px] fa-solid fa-circle-check"></i> : <i className="text-RED fa-solid fa-circle-exclamation"></i> }</p>
+        </div>
       </div>
     </div>
   )

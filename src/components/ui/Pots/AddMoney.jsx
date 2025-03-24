@@ -2,13 +2,15 @@
 import React from 'react'
 import { useState } from "react";
 
-const AddMoney = ({pots, pot, setPotToAddMoney,}) => {
-  const [amountToAdd, setAmountToAdd] = useState();
+const AddMoney = ({pots, pot, setPotToAddMoney, UPDATE}) => {
+  const [amountToAdd, setAmountToAdd] = useState(0);
+  const [customMessage, setCustomMessage] = useState('New amount added successfully!');  
+  const [customMessageActive, setCustomMessageActive] = useState(false);  
+  const [succes, setSuccess] = useState(false);  
 
   const themeColor = pot.theme;
   const percent = ((pot.total / pot.target) * 100);
   const formattedPercent = percent % 1 === 0 ? percent.toFixed(1) : percent.toFixed(2);
-
   const addedPercent = ((amountToAdd / pot.target) * 100)
 
   const handleTargetChange = (e) => {
@@ -17,6 +19,52 @@ const AddMoney = ({pots, pot, setPotToAddMoney,}) => {
       setAmountToAdd(value);
     }
   };
+
+  const handleAddMoney = async (potID) => {
+    if (amountToAdd <= 0) {
+      setCustomMessage('Please enter a valid amount')
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false); 
+      }, 1000);
+      return;
+    }
+    if (parseFloat(amountToAdd) + pot.total > pot.target) {
+      setCustomMessage('The amount exceeds the pot target');
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false);
+      }, 1000);
+      return;
+    }
+    
+
+    const response = await fetch(`http://localhost:5000/api/pots/add-money/${potID}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        amount: parseFloat(amountToAdd),
+      }),
+    });
+
+    const updatedPot = await response.json();
+    if (response.ok) {
+      UPDATE()
+      setCustomMessage('New amount added successfully!')
+      setCustomMessageActive(true);
+      setSuccess(true)
+      setTimeout(() => {
+        setCustomMessageActive(false); 
+        setPotToAddMoney(null); // Close the modal
+      }, 1000);
+      
+    } else {
+      console.error('Error adding money to pot:', updatedPot);
+    }
+  };
+
 
   return (
     <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000025] overflow-y-hidden'>
@@ -76,10 +124,13 @@ const AddMoney = ({pots, pot, setPotToAddMoney,}) => {
 
         </div>
 
-        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
+        <button onClick={() => handleAddMoney(pot._id)} id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
           Confirm Addition
         </button>
       
+        <div id='POP_UP_MESSAGE' className={`absolute z-10 rounded left-[50%] translate-x-[-50%] ${customMessageActive ? 'bottom-[-50px] opacity-100' : 'bottom-[0px] opacity-0'} bg-white text-black border w-[80%] h-[30px] flex items-center justify-center transition2`}>
+          <p className='font-sans font-[700]'>{customMessage} {succes? <i className="text-GREEN ml-[5px] fa-solid fa-circle-check"></i> : <i className="text-RED fa-solid fa-circle-exclamation"></i> }</p>
+        </div>
       </div>
     </div>
   )

@@ -1,13 +1,17 @@
+// EditPot.jsx
 import React from 'react'
 import { useState } from "react";
 import { themes } from '../../../utils';
 import { useEffect } from "react";
 
-const EditPot = ({setPotToEdit, pot, pots}) => {
+const EditPot = ({setPotToEdit, pot, pots, UPDATE}) => {
   const [newPotName, setNewPotName] = useState(pot.name);
   const [newTarget, setNewTarget] = useState(pot.target);
   const [newTheme, setNewTheme] = useState({theme: pot.theme, themeName: pot.themeName});
   const [selectThemesOpen, setSelectThemesOpen] = useState(false);  
+  const [customMessage, setCustomMessage] = useState('Pot updated successfully!');  
+  const [customMessageActive, setCustomMessageActive] = useState(false);  
+  const [succes, setSuccess] = useState(false);  
 
   const handleTargetChange = (e) => {
     const value = e.target.value; 
@@ -31,10 +35,69 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
       status: usedThemes.has(theme.name) ? "Already in use" : "Available"
     }));
   };
-  const themesWithUsedStatus = checkUsedThemes()
-  console.log(themesWithUsedStatus);
+  const themesWithUsedStatus = checkUsedThemes();
 
-
+  const handleUpdate = async (potId) => {
+    if (!newPotName.trim() ) {  // Validate Name
+      setCustomMessage('Please give the pot a unique name');
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false);
+      }, 2000);
+      return;
+    }
+    if ( newTarget < 1) {  // Validate Target amount
+      setCustomMessage('Please ensure target is a positive number');
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false);
+      }, 2000);
+      return;
+    }
+  
+    try {
+      const res = await fetch(`http://localhost:5000/api/pots/${potId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: newPotName.trim(),
+          target: parseInt(newTarget),
+          theme: newTheme.theme,
+          themeName: newTheme.themeName,
+        }),
+      });
+  
+      if (!res.ok) {
+        const responseData = await res.json();
+        throw new Error(`Failed to update pot: ${responseData.message}`);
+      }
+  
+      const updatedPot = await res.json();
+      UPDATE(); // Update the state or data after successful API call
+      console.log("Updated Pot:", updatedPot);
+  
+      // Show success message
+      setSuccess(true)
+      setCustomMessage('Pot Updated successfully!');
+      setCustomMessageActive(true);
+  
+      setTimeout(() => {
+        setCustomMessageActive(false); // Hide message after success
+        setPotToEdit(null); // Close the edit popup
+      }, 1000);
+  
+    } catch (error) {
+      console.error("Error updating pot:", error);
+      setCustomMessage('Something went wrong. Please try again.');
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false); // Hide error message after 1 second
+      }, 1000);
+    }
+  };
+  
+  
+  
   return (
     <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000026] overflow-y-hidden'>
       <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
@@ -109,11 +172,18 @@ const EditPot = ({setPotToEdit, pot, pots}) => {
           </div>
         </div>
 
-        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
+        <button onClick={() => handleUpdate(pot._id)} id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
           Save Changes
         </button>
-      
+
+        <div id='POP_UP_MESSAGE' className={`absolute z-10 rounded left-[50%] translate-x-[-50%] ${customMessageActive ? 'bottom-[-50px] opacity-100' : 'bottom-[0px] opacity-0'} bg-white text-black border w-[80%] h-[30px] flex items-center justify-center transition2`}>
+          <p className='font-sans font-[700]'>{customMessage} {succes? <i className="text-GREEN ml-[5px] fa-solid fa-circle-check"></i> : <i className="text-RED fa-solid fa-circle-exclamation"></i> }</p>
+        </div>
+          
       </div>
+      
+    
+     
     </div>
   )
 }

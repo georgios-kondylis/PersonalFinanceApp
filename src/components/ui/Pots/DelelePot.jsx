@@ -1,11 +1,28 @@
 import React from 'react'
 
-const DeletePot = ({pot, setPotToDelete }) => {
-  const handleDelete = () => {
-    console.log(`Deleting pot: ${pot.name}`);
-    // Add API request to delete pot from backend
-    setPotToDelete(null);
+const DeletePot = ({pot, setPotToDelete, UPDATE }) => {
+  const handleDelete = async (potId) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/pots/${potId}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
+  
+      if (!res.ok) {
+        const responseData = await res.json();
+        throw new Error(responseData.message || 'Failed to delete pot');
+      }
+  
+      const responseData = await res.json();
+      console.log('Pot deleted:', responseData);
+      setPotToDelete(null)
+      UPDATE()
+    } catch (error) {
+      console.error('Error deleting pot:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
+  
 
   return (
     <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000026] '>
@@ -24,7 +41,7 @@ const DeletePot = ({pot, setPotToDelete }) => {
         </p>
 
         <div className='flex flex-col items-center'>
-          <button className='red hover:bg-[#c94736ca] w-full rounded-[6px] py-[11px] text-[#fff] font-sans text-[14px] hover:text-[16px] transition1'>
+          <button onClick={() => handleDelete(pot._id)} className='red hover:bg-[#c94736ca] w-full rounded-[6px] py-[11px] text-[#fff] font-sans text-[14px] hover:text-[16px] transition1'>
             Yes, Confirm Deletion
           </button>
           <button className='w-full rounded-[10px] py-[11px] text-[#797979] font-sans text-[14px] hover:text-[16px] hover:text-[black] transition1'

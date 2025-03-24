@@ -6,18 +6,18 @@ import EditPot from "./ui/Pots/EditPot";
 import AddMoney from "./ui/Pots/AddMoney";
 import Withdraw from "./ui/Pots/Withdraw";
 
-const Pots = ({pots}) => {
+const Pots = ({pots, UPDATE}) => {
   const [activePotIndex, setActivePotIndex] = useState(null);
   const [potToDelete, setPotToDelete] = useState(null); // Track the pot being deleted
   const [potToEdit, setPotToEdit] = useState(null);
   const [addPotActive, setAddPotActive] = useState(false);
   const [potToAddMoney, setPotToAddMoney] = useState(null);
-  const [potToWithdaw, setPotToWithdaw] = useState(null);
+  const [potToWithdraw, setPotToWithdraw] = useState(null);
 
   return (
     <section className="section">
       <div id="all_container" className="flex flex-col GAP">
-        <Header pots={pots} addPotActive={addPotActive} setAddPotActive={setAddPotActive}/>
+        <Header pots={pots} addPotActive={addPotActive} setAddPotActive={setAddPotActive} UPDATE={UPDATE}/>
 
         <div id="POTS_CONTAINER" className="grid grid-cols-2 max-lg:grid-cols-1 w-full GAP flex-wrap place-items-center">
 
@@ -63,7 +63,7 @@ const Pots = ({pots}) => {
               </div>
 
               <div className="flex flex-col gap-[10px] items-center justify-between">
-                <div id="PROGRESS_BAR" className="w-full rounded-full bg-[#d0d0d0] h-[7.5px]">
+                <div id="PROGRESS_BAR" className="w-full rounded-full bg-[#d0d0d0] h-[7.5px] overflow-x-hidden">
                    <div className="rounded-full h-full" style={{ backgroundColor: themeColor, width: `${percent}%` }}></div>
                 </div>
                 
@@ -81,7 +81,7 @@ const Pots = ({pots}) => {
               <button className="potsButtonHover" onClick={() => setPotToAddMoney(pot)}>
                 + Add money
               </button>
-              <button className="potsButtonHover" onClick={() => setPotToWithdaw(pot)}>
+              <button className="potsButtonHover" onClick={() => setPotToWithdraw(pot)}>
                 Withdraw
               </button>
             </div>
@@ -91,21 +91,25 @@ const Pots = ({pots}) => {
             <EditPot 
               setPotToEdit={setPotToEdit} 
               pot={potToEdit}
-              pots={pots} />}
+              pots={pots} 
+              UPDATE={UPDATE}/>}
             {potToDelete !== null && 
             <DeletePot 
               setPotToDelete={setPotToDelete} 
-              pot={potToDelete} />}
+              pot={potToDelete}
+              UPDATE={UPDATE} />}
             {potToAddMoney !== null &&
              <AddMoney
               pots={pots}
               pot={potToAddMoney}
-              setPotToAddMoney={setPotToAddMoney}/>}
-            {potToWithdaw !== null &&
+              setPotToAddMoney={setPotToAddMoney}
+              UPDATE={UPDATE}/>}
+            {potToWithdraw !== null &&
             <Withdraw
               pots={pots}
-              pot={potToWithdaw}
-              setPotToWithdaw={setPotToWithdaw}/>}
+              pot={potToWithdraw}
+              setPotToWithdraw={setPotToWithdraw}
+              UPDATE={UPDATE}/>}
           </div>
           )})}
           

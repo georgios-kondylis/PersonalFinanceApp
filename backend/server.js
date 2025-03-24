@@ -15,7 +15,7 @@ app.use(express.json()); // Middleware to parse JSON requests
 
 connectToMongoDB();
 
-app.use("/api/balance", balanceRoutes);
+app.use("/api/balance", balanceRoutes); // http://localhost:5000/api/pots
 app.use("/api/transactions", transactionsRoutes);
 app.use("/api/pots", potsRoutes);
 app.use("/api/budgets", budgetsRoutes);
