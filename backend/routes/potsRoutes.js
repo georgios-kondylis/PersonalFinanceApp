@@ -1,6 +1,7 @@
 // potsRoutes
 import express from 'express';
 import { Pots } from '../models/pots.js';
+import { Balance } from '../models/balanceModel.js';
 
 const router = express.Router();
 
@@ -59,24 +60,36 @@ router.put('/:id', async (req, res) => {
 // Add money to a pot
 router.put('/add-money/:id', async (req, res) => {
   try {
-    const { id } = req.params; // Get the ID from URL
-    const { amount } = req.body; // Get the amount from the request body
+    const { id } = req.params; 
+    const { amount } = req.body;
 
     if (!amount || isNaN(amount) || amount <= 0) {
       return res.status(400).json({ error: 'Invalid amount to add' });
     }
 
+    // Fetch the balance document where name is "current"
+    const currentBalance = await Balance.findOne({ name: "current" });
+
+    if (currentBalance.amount < amount) {
+      return res.status(400).json({ error: 'Insufficient funds in balance' });
+    }
+
+    // Deduct the amount from the balance
+    currentBalance.amount -= amount;
+    await currentBalance.save();
+
+    // Add money to the pot
     const updatedPot = await Pots.findByIdAndUpdate(
       id,
-      { $inc: { total: amount } }, // Increment the pot total by the amount
-      { new: true } // Return the updated document
+      { $inc: { total: amount } },
+      { new: true }
     );
 
     if (!updatedPot) {
       return res.status(404).json({ message: "Pot not found" });
     }
 
-    res.json(updatedPot); // Send back the updated pot
+    res.json({ updatedPot, newBalance: currentBalance.amount }); // Send updated pot and balance
   } catch (error) {
     console.error("Error adding money to pot:", error);
     res.status(500).json({ message: "Internal server error" });
@@ -91,6 +104,10 @@ router.put('/withdraw/:id', async (req, res) => {
     if (!amount || isNaN(amount) || amount <= 0) {
       return res.status(400).json({ error: 'Invalid amount to withdraw' });
     }
+
+    const currentBalance = await Balance.findOne({ name: "current" });
+    currentBalance.amount += amount;  // Add the amount to the balance
+    await currentBalance.save();
 
     const pot = await Pots.findById(id);
     if (!pot) {
@@ -122,6 +139,10 @@ router.delete('/:id', async (req, res) => {
     if (!potToDelete) {
       return res.status(404).json({ message: "Pot not found" });
     }
+  
+    const currentBalance = await Balance.findOne({ name: "current" });
+    currentBalance.amount += potToDelete.total;  // Add the pot total to the balance
+    await currentBalance.save();
     // Send a success message after deletion
     res.status(200).json({ message: "Pot deleted successfully" });
 

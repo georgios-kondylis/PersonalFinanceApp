@@ -1,8 +1,8 @@
-import React, { useState } from 'react'
+import React from 'react'
 import AddPot from './AddPot';
 
 
-const Header = ({pots, addPotActive, setAddPotActive, UPDATE }) => {
+const PotsHeader = ({pots, addPotActive, setAddPotActive, UPDATE }) => {
 
   return (
     <div id="HEADER" className="flex w-full items-center justify-between font-sans">
@@ -18,4 +18,4 @@ const Header = ({pots, addPotActive, setAddPotActive, UPDATE }) => {
   )
 }
 
-export default Header
+export default PotsHeader

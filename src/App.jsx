@@ -64,7 +64,7 @@ function App() {
         setBalance(balanceData);
         setPots(potsData);
         setBudgets(budgetData);
-        console.log('update')
+        console.log('update <------------------------')
         
       } catch (error) {
         console.log('❌ Failed fetching data:', error);
@@ -75,7 +75,6 @@ function App() {
   }, [REFETCH_TRIGGER]);
 
   const UPDATE = () => SET_REFETCH_TRIGGER(prev => !prev);   // Perform the action (e.g., delete or update pot), After completing the action, trigger the refetch
-  
   
   return (
     <div className='flex w-full gray1'>
@@ -92,15 +91,11 @@ function App() {
            totalUpcoming={totalUpcoming}
            within5days={within5days}/>} 
          />
+
         <Route path="/transactions" element={<Transactions transactions={transactions} />} />
-        <Route path="/budgets" element={<Budgets />} />
+        <Route path="/budgets" element={<Budgets  budgets={budgets} UPDATE={UPDATE} />} />
         <Route path="/pots" element={<Pots pots={pots} UPDATE={UPDATE} />} />
-        <Route path="/recurring-bills" element={
-          <RecurringBills 
-            recurringBills={recurringBills} 
-            paidBills={paidBills} 
-            totalUpcoming={totalUpcoming}
-            within5days={within5days}/>} />
+        <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
       </Routes>
     </div>
   );

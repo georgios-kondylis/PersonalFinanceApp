@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { formatCurrency } from "../utils";
-import Header from "./ui/Pots/Header";
+import PotsHeader from "./ui/Pots/PotsHeader";
 import DeletePot from "./ui/Pots/DelelePot";
 import EditPot from "./ui/Pots/EditPot";
 import AddMoney from "./ui/Pots/AddMoney";
@@ -17,7 +17,7 @@ const Pots = ({pots, UPDATE}) => {
   return (
     <section className="section">
       <div id="all_container" className="flex flex-col GAP">
-        <Header pots={pots} addPotActive={addPotActive} setAddPotActive={setAddPotActive} UPDATE={UPDATE}/>
+        <PotsHeader pots={pots} addPotActive={addPotActive} setAddPotActive={setAddPotActive} UPDATE={UPDATE}/>
 
         <div id="POTS_CONTAINER" className="grid grid-cols-2 max-lg:grid-cols-1 w-full GAP flex-wrap place-items-center">
 
