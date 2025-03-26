@@ -1,7 +1,14 @@
 import React from 'react';
 import { formatAmount } from '../../../utils';
 
-const BudgetDetails2 = ({ budgets }) => {
+const BudgetDetails2 = ({ 
+  budgets, 
+  transactions,
+  latestEntertainmentTransactions_SUM,
+  latestBillsTransactions_SUM,
+  latestDiningOutTransactions_SUM,
+  latestPersonalCareTransactions_SUM, }) => {
+
   return (
     <div className="flex sm:flex-col justify-between h-full gap-[17px]
 
@@ -18,7 +25,13 @@ const BudgetDetails2 = ({ budgets }) => {
             <div className="flex w-full justify-between gap-[17px]">
               <p className="thinSubText text-nowrap ">{budget.category}</p>
               <div className='flex gap-[8px]'>
-                 <p className="">15$</p>
+                 <p id='LAST_MONTH_SUM'> {
+                    budget.category === 'Entertainment' ? latestEntertainmentTransactions_SUM : 
+                    budget.category === 'Bills' ? latestBillsTransactions_SUM : 
+                    budget.category === 'Dining Out' ? latestDiningOutTransactions_SUM : latestPersonalCareTransactions_SUM
+                    }
+                 </p>
+
                  <p className="thinSubText">of {formatAmount(budget.maximum)}</p>
               </div>
             </div>

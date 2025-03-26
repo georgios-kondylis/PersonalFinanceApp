@@ -93,7 +93,7 @@ function App() {
          />
 
         <Route path="/transactions" element={<Transactions transactions={transactions} />} />
-        <Route path="/budgets" element={<Budgets  budgets={budgets} UPDATE={UPDATE} />} />
+        <Route path="/budgets" element={<Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} />} />
         <Route path="/pots" element={<Pots pots={pots} UPDATE={UPDATE} />} />
         <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
       </Routes>

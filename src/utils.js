@@ -161,3 +161,28 @@ export const themes = [
   { name: "Gold", value: "#cab361" },
   { name: "Orange", value: "#be6c49" }
 ];
+
+// Budgets
+export const getTheLatestMonthTransactions = (array, category) => {
+    // Step 1: Get the latest month from all transactions
+  const latestMonth = new Date(
+    Math.max(...array.map((t) => new Date(t.date)))
+  );
+
+  // Extract the latest month & year
+  const latestYear = latestMonth.getFullYear();
+  const latestMonthIndex = latestMonth.getMonth(); // 0 = Jan, 11 = Dec
+
+  // Step 2: Filter only "Entertainment" transactions from the latest month
+  const latestMonthTransactions = array.filter((object) => {
+    const transactionDate = new Date(object.date);
+      return (
+        object.category === category &&
+        transactionDate.getFullYear() === latestYear &&
+        transactionDate.getMonth() === latestMonthIndex
+      );
+  });
+  
+  // console.log(latestMonthTransactions);
+  return latestMonthTransactions; // <-- Add this return statement!
+}
