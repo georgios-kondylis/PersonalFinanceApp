@@ -50,7 +50,7 @@ const HomePage = ({
             <div className="gridBox h-fit flex flex-col gap-[20px]">
               <div className="flex justify-between items-center">
                 <h1 className="text-lg font-semibold">Transactions</h1>
-                <div onClick={() => navigate("/transactions")}> <ViewAll /> </div>
+                <div onClick={() => navigate("/transactions")}> <ViewAll label={'View All'} /> </div>
               </div>
 
               <div className="flex flex-col">

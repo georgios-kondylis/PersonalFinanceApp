@@ -43,28 +43,19 @@ export const custom_470_breakpoint = () => {
 };
 
 export const formatAmount = (amount) => {
-  return `$${Number(amount).toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  })}`;
+  return  amount < 0 ?
+   `${`$${Math.abs(Number(amount)).toFixed(2)}`}` : // if negative make it positive and fixed.00
+   `$${Number(amount).toFixed(2)}` // if positive just .00
 };
-
 export const formatAmount_Neg_Pos = (amount) => {
   return amount < 0
     ? `-${`$${Math.abs(Number(amount)).toFixed(2)}`}` // If negative, format it as positive and pretend the - manually
     : `+$${Number(amount).toFixed(2)}`; // If positive, just format normally
 };
 
-export const formatCurrency = (amount) => {
-  // Create a currency format function for U.S. dollars (USD)
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD", // Use 'USD' for U.S. dollars
-  }).format(amount);
-};
-
 export const formatDate = (date) => {
-  const options = { year: "numeric", month: "short", day: "numeric" };
+  const options = { year: "numeric", month: "short", day: "numeric" };   // Example: If date = 2024-08-19T14:23:11.000+00:00, it will return "27 Mar 2024"
+  const options2 = { year: "numeric", month: "numeric", day: "numeric" };   // Example: If date = 2024-08-19T14:23:11.000+00:00, it will return "27-03-2024"
   const formattedDate = new Date(date).toLocaleDateString("en-GB", options);
   return formattedDate;
 };
@@ -163,6 +154,7 @@ export const themes = [
 ];
 
 // Budgets
+// utils.js
 export const getTheLatestMonthTransactions = (array, category) => {
     // Step 1: Get the latest month from all transactions
   const latestMonth = new Date(
@@ -182,7 +174,7 @@ export const getTheLatestMonthTransactions = (array, category) => {
         transactionDate.getMonth() === latestMonthIndex
       );
   });
-  
+
   // console.log(latestMonthTransactions);
   return latestMonthTransactions; // <-- Add this return statement!
 }

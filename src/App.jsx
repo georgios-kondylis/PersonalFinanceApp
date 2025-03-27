@@ -76,6 +76,7 @@ function App() {
 
   const UPDATE = () => SET_REFETCH_TRIGGER(prev => !prev);   // Perform the action (e.g., delete or update pot), After completing the action, trigger the refetch
   
+  const [categSelected, setCategSelected] = useState(''); // this will be passed to Transactions.jsx and Budgets.jsx
   return (
     <div className='flex w-full gray1'>
       {wideScreen?
@@ -92,8 +93,8 @@ function App() {
            within5days={within5days}/>} 
          />
 
-        <Route path="/transactions" element={<Transactions transactions={transactions} />} />
-        <Route path="/budgets" element={<Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} />} />
+        <Route path="/transactions" element={<Transactions transactions={transactions} categSelected={categSelected} setCategSelected={setCategSelected} />} />
+        <Route path="/budgets" element={<Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} setCategSelected={setCategSelected}/>} />
         <Route path="/pots" element={<Pots pots={pots} UPDATE={UPDATE} />} />
         <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
       </Routes>

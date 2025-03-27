@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { formatCurrency } from "../utils";
+import { formatAmount } from "../utils";
 import PotsHeader from "./ui/Pots/PotsHeader";
 import DeletePot from "./ui/Pots/DelelePot";
 import EditPot from "./ui/Pots/EditPot";
@@ -59,7 +59,7 @@ const Pots = ({pots, UPDATE}) => {
             <div id="MIDDLE_ROW" className="flex gap-[15px] flex-col">
               <div className="flex items-center justify-between">
                 <p className="thinSubText_POTS">Total Saved</p>
-                <p className="txt5">{formatCurrency(pot.total)}</p>
+                <p className="txt5">{formatAmount(pot.total)}</p>
               </div>
 
               <div className="flex flex-col gap-[10px] items-center justify-between">

@@ -8,7 +8,7 @@ import { custom_maxMD_768_breakpoint } from '../utils';
 import SeCaSoMobile from './ui/SeCaSoMobile';
 import PaginationControls from './ui/PaginationControls';
 
-const Transactions = ({transactions, }) => {
+const Transactions = ({transactions, setCategSelected, categSelected }) => {
   const maxMD = custom_maxMD_768_breakpoint();
   const [categDropDownOpen ,setCategDropDownOpen] = useState(false)
   const [sortDropDownOpen ,setSortDropDownOpen] = useState(false)
@@ -16,7 +16,7 @@ const Transactions = ({transactions, }) => {
   const [searchResult, setSearchResult] = useState('');
 
   const [sortSelected, setSortSelected] = useState('');
-  const [categSelected, setCategSelected] = useState('');
+  // const [categSelected, setCategSelected] = useState(''); // i moved this one to App.jsx so i can pass setCategSelected to budgets
   const [sortedTransactions, setSortedTransactions] = useState([]);
   const [filteredTransactions, setFilteredTransactions] = useState(sortedTransactions);
 
