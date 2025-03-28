@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import BudgetsHeader from './ui/Budgets/BudgetsHeader'
 import MyPieChartBudgets from './ui/Budgets/MyPieChartBudgets'
 import BudgetDetails2 from './ui/Budgets/BudgetDetails2'
 import { getTheLatestMonthTransactions } from '../utils'
 import { formatAmount } from '../utils'
 import { useNavigate } from 'react-router-dom'
 import Budgets3TransactionLines from './ui/Budgets/Budgets3TransactionLines'
+import AddBudget from './ui/Budgets/AddBudget'
 
 const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
   const navigate = useNavigate()
-  const [budgetActive, setBudgetActive] = useState(false);
+  const [addBudgetActive, setAddBudgetActive] = useState(false);
   
   // Attach the latestMonthSummary to each budget dynamically
   const updatedBudgets = budgets.map((budget) => {
@@ -20,17 +20,26 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
   });
 
   return (
-    <section className="section">
+    <section className="section relative">
       <div id="All_CONTAINER" className="flex flex-col GAP">
-        <BudgetsHeader setBudgetActive={setBudgetActive} UPDATE={UPDATE} />
+        <div id="HEADER" className="flex w-full items-center justify-between font-sans">
+          <p className="txt5">Budgets</p>
+          <button onClick={() => setAddBudgetActive(prev => !prev)} className="Add_Button">
+            <p>+ Add new Budget</p>
+          </button>
+        </div>
 
         <div id="COLUMNS_CONTAINER" className="flex max-lg:flex-col GAP">
-          <div id="COLUMN_1" className="flex lg:flex-col GAP w-[40%] max-lg:w-full h-[570px] max-lg:h-[300px] bg-white rounded-[10px] p-[20px]">
-            <div className="w-full h-[50%] max-lg:h-[100%] mt-[10px]">
+          <div id="COLUMN_1" className="LARGE-> flex w-[40%] h-[570px] GAP bg-white rounded-[10px] p-[20px] 
+                                        MID-LARGE-> lg:flex-col  max-lg:w-full max-lg:h-[300px] max-lg:p-[30px] 
+                                        SMALL-> max-sm:flex-col max-sm:w-full max-sm:h-[570px] max-sm:p-[20px]">
+            <div className="LARGE-> w-full h-[50%] mt-[10px]
+                            MID-LARGE-> max-lg:h-[100%] max-lg:w-[50%] max-lg:mt-[0px]
+                            SMALL-> max-sm:w-full max-sm:h-[50%] max-sm:mt-[10px]">
               <MyPieChartBudgets budgets={updatedBudgets} />
             </div>
 
-            <div id="DETAILS" className="flex mt-[10px] flex-col GAP">
+            <div id="DETAILS" className="flex max-lg:w-[50%] mt-[10px] flex-col GAP  max-sm:w-full">
               <h1>Spending Summary</h1>
               <BudgetDetails2 updatedBudgets={updatedBudgets} />
             </div>
@@ -46,7 +55,7 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
                   }
 
               return (
-              <div key={i} className="flex flex-col gap-[15px] bg-white p-[25px] rounded-[10px]">
+              <div key={i} className="relative flex flex-col gap-[15px] bg-white p-[25px] rounded-[10px]">
                 <div id="HEADER" className="flex items-center justify-between">
                   <div className="flex items-center gap-[10px]">
                     <span className="w-[15px] h-[15px] rounded-full" style={{ backgroundColor: budget.theme }} ></span>
@@ -61,7 +70,7 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
                 </div>
 
                 <div id='PROGRESS-BAR SPENT_REMAINING' className="flex flex-col gap-[15px]">
-                  <p className="thinSubText">Maximum {formatAmount(budget.maximum)}</p>
+                  <p className="thinSubText">Maximum of {formatAmount(budget.maximum)}</p>
 
                   <div id="PROGRESS_BAR" className='p-[5px] rounded-[5px] bg-BEIGE overflow-x-hidden'>
                     <div className='h-[23px] rounded-[5px]'
@@ -121,11 +130,25 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
                       </div>
                     </div>
                   </div>
+
+                  {/* ABSOLUTES POP UPS BUDGET SPECIFIC */}
+                  {/* {newBudgetActive && 
+                  <div className='absolute top-[20%] text-[10rem]'>
+                    GAMIESE
+                  </div>} */}
               </div>
             )})}
           </div>
         </div>
       </div>
+      {addBudgetActive && 
+        <AddBudget 
+         budgets={budgets}
+         addBudgetActive={addBudgetActive}
+         setAddBudgetActive={setAddBudgetActive} 
+         transactions={transactions}
+         UPDATE={UPDATE}/>
+      }
     </section>
   );
 };

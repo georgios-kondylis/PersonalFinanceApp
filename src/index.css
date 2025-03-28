@@ -142,6 +142,7 @@ h4{
 }
 .GAP {@apply gap-[25px]}
 .headerGAP {@apply gap-[35px]}
+.Add_Button {@apply gray1 text-white px-[15px] py-[17px] text-[16px] rounded-[10px] font-sans}
 
 .mobile_dropdown_container_category {@apply absolute font-sans h-[302px] overflow-y-auto right-0 flex flex-col py-[10px] px-[15px] bg-white w-[165px] rounded-[10px] shadow-[0px_2px_10px_rgba(0,0,0,0.4)] mt-[40px] items-start }
 .abs_center {@apply top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]}
@@ -150,5 +151,6 @@ h4{
 .themeButtonListStyles {@apply flex items-center justify-between py-[10px] cursor-pointer border-b w-full outline-none text-[16px] font-sans font-[400]}
 .potsButtonHover {@apply flex flex-1 justify-center items-center py-[15px] px-[10px] rounded-[10px] bg-BEIGE hover:bg-white hover:border-[#abab98] hover:border border border-transparent}
 
+.drop_down_theme_list {@apply z-50 rounded-[10px] SHADOW absolute bottom-[-245px] w-[101%] h-[230px] right-[-2px] bg-[#fff] border px-[20px] py-[5px] flex flex-col overflow-y-auto}
 
 
