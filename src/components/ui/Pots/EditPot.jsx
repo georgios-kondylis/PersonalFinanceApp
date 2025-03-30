@@ -97,7 +97,6 @@ const EditPot = ({setPotToEdit, pot, pots, UPDATE}) => {
   };
   
   
-  
   return (
     <div className='absolute top-0 left-0 z-50 w-full h-full bg-[#00000026] overflow-y-hidden'>
       <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
@@ -129,7 +128,7 @@ const EditPot = ({setPotToEdit, pot, pots, UPDATE}) => {
             <div className='editInputStyles flex items-center'>
               <i className="text-[#7a7a7a] text-[15px] fa-solid fa-dollar-sign"></i>
               <input className='rounded-[10px] pl-[13px] cursor-pointer w-full outline-none text-[16px] font-sans font-[400]' 
-                    onChange={handleTargetChange}
+                    onChange={(e) => handleTargetChange(e)}
                     type="text" placeholder='Target' 
                     value={newTarget}
               />

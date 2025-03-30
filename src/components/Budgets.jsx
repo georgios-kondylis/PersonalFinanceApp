@@ -6,10 +6,15 @@ import { formatAmount } from '../utils'
 import { useNavigate } from 'react-router-dom'
 import Budgets3TransactionLines from './ui/Budgets/Budgets3TransactionLines'
 import AddBudget from './ui/Budgets/AddBudget'
+import EditBudget from './ui/Budgets/EditBudget'
+import DeleteBudget from './ui/Budgets/DeleteBudget'
 
 const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
   const navigate = useNavigate()
   const [addBudgetActive, setAddBudgetActive] = useState(false);
+  const [activeBudgetIndex, setActiveBudgetIndex] = useState(null)
+  const [budgetToEdit, setBudgetToEdit] = useState(null);
+  const [budgetToDelete, setBudgetToDelete] = useState(null);
   
   // Attach the latestMonthSummary to each budget dynamically
   const updatedBudgets = budgets.map((budget) => {
@@ -47,6 +52,7 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
 
           <div id="COLUMN_2" className="rounded-[10px] w-[60%] max-lg:w-full flex flex-col GAP">
             {updatedBudgets.map((budget, i) => {
+                const dotsActive = activeBudgetIndex === i
                 const filteredTransactions = transactions.filter((tr) => tr.category === budget.category);
 
                  const handleViewAll = () => {
@@ -56,16 +62,30 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
 
               return (
               <div key={i} className="relative flex flex-col gap-[15px] bg-white p-[25px] rounded-[10px]">
-                <div id="HEADER" className="flex items-center justify-between">
+                <div id="BUDGET_HEADER" className="flex items-center justify-between">
                   <div className="flex items-center gap-[10px]">
                     <span className="w-[15px] h-[15px] rounded-full" style={{ backgroundColor: budget.theme }} ></span>
                     <p>{budget.category}</p>
                   </div>
 
-                  <div id="DOTS" className="relative flex gap-[2.5px] items-center cursor-pointer px-[10px] py-[7px]">
+                  <div id="DOTS" className="relative flex gap-[2.5px] items-center cursor-pointer px-[10px] py-[7px]"
+                      onClick={() => setActiveBudgetIndex(dotsActive? null : i)}>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
+
+                    {dotsActive && 
+                      <div id="EDIT_DELETE" className="absolute top-[35px] right-[0] w-fit text-nowrap font-sans text-[12px] bg-white border rounded-[10px] p-[10px] shadow-[0_0_10px_rgba(0,0,0,0.3)]">
+                      <p className="border-b pb-[5px] hover:scale-[1.1] transition1"
+                          onClick={() => setBudgetToEdit(budget)} >
+                        Edit Budget
+                      </p>
+                      <p className="pt-[5px] text-RED hover:scale-[1.1] transition1"
+                          onClick={() => setBudgetToDelete(budget)}> {/* Store the actual budget object */}
+                        Delete Budget
+                      </p>
+                    </div>
+                    }
                   </div>
                 </div>
 
@@ -130,12 +150,6 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
                       </div>
                     </div>
                   </div>
-
-                  {/* ABSOLUTES POP UPS BUDGET SPECIFIC */}
-                  {/* {newBudgetActive && 
-                  <div className='absolute top-[20%] text-[10rem]'>
-                    GAMIESE
-                  </div>} */}
               </div>
             )})}
           </div>
@@ -149,6 +163,19 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
          transactions={transactions}
          UPDATE={UPDATE}/>
       }
+       {/* ABSOLUTES | EDIT & DELETE */}
+       {budgetToEdit !== null && 
+        <EditBudget 
+          setBudgetToEdit={setBudgetToEdit} 
+          budget={budgetToEdit}
+          budgets={budgets} 
+          transactions={transactions}
+          UPDATE={UPDATE}/>}
+        {budgetToDelete !== null && 
+        <DeleteBudget 
+          setBudgetToDelete={setBudgetToDelete} 
+          budget={budgetToDelete}
+          UPDATE={UPDATE} />}
     </section>
   );
 };
