@@ -131,7 +131,7 @@ const EditBudget = ({setBudgetToEdit, budget, budgets, transactions, UPDATE}) =>
         </div>
 
         <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
-          Add Pot
+          Save Changes
         </button>
       
         <div id='POP_UP_MESSAGE' className={`absolute z-10 rounded left-[50%] translate-x-[-50%] ${customMessageActive ? 'bottom-[-50px] opacity-100' : 'bottom-[0px] opacity-0'} bg-white text-black border w-[80%] h-[30px] flex items-center justify-center transition2`}>

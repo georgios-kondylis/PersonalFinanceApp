@@ -7,13 +7,20 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
 
   const [newBudgetCategory, setNewBudgetCategory] = useState('');
   const [selectBudgetCategOpen, setSelectBudgetCategOpen] = useState(false);
-  const [newMaxSpend, setNewMaxSpend] = useState();
+  const [newMaxSpend, setNewMaxSpend] = useState('');
   const [newTheme, setNewTheme] = useState('');
   const [selectThemesOpen, setSelectThemesOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState('Pot Created successfully!');  
   const [customMessageActive, setCustomMessageActive] = useState(false);  
   const [succes, setSuccess] = useState(false);
-  
+
+  const handleMaxSpendChange = (e) => {
+    const value = e.target.value; 
+    if (value === "" || (/^[1-9]\d*$/.test(value))) { 
+      setNewMaxSpend(value);
+      // console.log(newMaxSpend);
+    }
+  };
   // ----- THEMES -----
   const handleThemeChange = (theme) => {
     setNewTheme({ theme: theme.value, themeName: theme.name });
@@ -27,11 +34,66 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
       status: usedThemes.has(theme.name) ? "Already in use" : "Available"
     }));
   };
+  const checkUsedCategories = () => {
+    const usedCategories = new Set(budgets.map(budget => budget.category));
+    // we get ann array of the used categories [entertainment, bills, etc..]
+  
+  return transactionCategories.map(category => ({
+    name: category,
+    status: usedCategories.has(category) ? "Already in use" : "Available"
+  }));
+  }
   const themesWithUsedStatus = checkUsedThemes()
+  const categoriesWithUsedStatus = checkUsedCategories();
+  console.log(categoriesWithUsedStatus);
+  console.log(transactionCategories)
+
   useEffect(() => { 
     selectThemesOpen && setSelectThemesOpen(false); // Dropdown closes everytime theme updatess
   }, [newTheme]);
   // ----- THEMES -----
+
+  const handleAddBudget = async() => {
+
+    if (!newBudgetCategory || !newMaxSpend || !newTheme.theme || !newTheme.themeName) {
+      setCustomMessage('Please fill all the fields')
+      setCustomMessageActive(true);
+      setTimeout(() => {
+        setCustomMessageActive(false); 
+      }, 1000);
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:5000/api/budgets', {
+       method: 'POST', 
+       headers: {'Content-Type' : 'application/json'},
+       body: JSON.stringify ({
+        category: newBudgetCategory,
+        maximum: parseInt(newMaxSpend), 
+        theme: newTheme.theme,
+        themeName: newTheme.themeName
+      })
+    });
+       const resInJson = await res.json();
+       console.log('API Response:', resInJson)
+
+       if (!res.ok) {
+        throw new Error(`Failed to create Budget: ${resInJson.error || res.statusText}`);
+       }
+
+       UPDATE()
+       setCustomMessage('Budget Created successfully!')
+       setCustomMessageActive(true);
+       setSuccess(true);
+       setTimeout(() => {
+         setCustomMessageActive(false); 
+         setAddBudgetActive(false); // close pop up
+       }, 1000);
+    } catch (error) {
+      console.log('malakia')
+    }
+  }
 
   return (
     <div className='fixed h-full top-0 left-0 z-50 w-full bg-[#00000080] overflow-y-hidden'>
@@ -62,11 +124,12 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
              {/* ------------------------------------------------ */}
               {selectBudgetCategOpen && // DROPDOWN CATEG-LIST
               <div className='drop_down_theme_list'>
-               {transactionCategories.map((category, i) => (
+               {categoriesWithUsedStatus.map((category, i) => (
                 <div key={i} id='EVERY_CATEG_BUTTON' className='themeButtonListStyles hover:border-b-[#c3c3c3]'
-                     onClick={() => setNewBudgetCategory(category)}>
-                  <p>{category}</p>
-                  {newBudgetCategory === category && <i className="text-[#277c78] fa-solid fa-circle-check"></i>}
+                     onClick={() => setNewBudgetCategory(category.name)}>
+                  <p className={category.status === 'Already in use' ? 'opacity-[40%]' : 'opacity-[100%]'}>{category.name}</p>
+                  {newBudgetCategory === category.name && <i className="text-[#277c78] fa-solid fa-circle-check"></i>}
+                  {category.status === "Already in use" && category.name !== newBudgetCategory && <p className='thinSubText'>{category.status}</p>}
                 </div>
               ))}
               </div>
@@ -80,7 +143,7 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
             <div className='editInputStyles flex items-center'>
               <i className="text-[#7a7a7a] text-[15px] fa-solid fa-dollar-sign"></i>
               <input className='rounded-[10px] pl-[13px] cursor-pointer w-full outline-none text-[16px] font-sans font-[400]' 
-                    // onChange={''}
+                    onChange={(e) => handleMaxSpendChange(e)}
                     type="text" placeholder='e.g. 2000' 
                     value={newMaxSpend}
               />
@@ -122,8 +185,9 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
           </div>
         </div>
 
-        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
-          Add Pot
+        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'
+                onClick={handleAddBudget}>
+          Add Budget
         </button>
       
         <div id='POP_UP_MESSAGE' className={`absolute z-10 rounded left-[50%] translate-x-[-50%] ${customMessageActive ? 'bottom-[-50px] opacity-100' : 'bottom-[0px] opacity-0'} bg-white text-black border w-[80%] h-[30px] flex items-center justify-center transition2`}>

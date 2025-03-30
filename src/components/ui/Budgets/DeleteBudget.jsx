@@ -2,28 +2,25 @@ import React from 'react'
 
 const DeleteBudget = ({budget, setBudgetToDelete, UPDATE }) => {
   const handleDelete = async (budgetID) => {
-    // try {
-    //   const res = await fetch(`http://localhost:5000/api/pots/${budgetID}`, {
-    //     method: 'DELETE',
-    //     headers: { 'Content-Type': 'application/json' },
-    //   });
+    try {
+      const res = await fetch(`http://localhost:5000/api/budgets/${budgetID}`, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+      });
   
-    //   if (!res.ok) {
-    //     const responseData = await res.json();
-    //     throw new Error(responseData.message || 'Failed to delete pot');
-    //   }
+      if (!res.ok) {
+        const responseData = await res.json();
+        throw new Error(responseData.message || 'Failed to delete budget');
+      }
   
-    //   const responseData = await res.json();
-    //   console.log('Pot deleted:', responseData);
-    //   setPotToDelete(null)
-    //   UPDATE()
-    // } catch (error) {
-    //   console.error('Error deleting pot:', error);
-    //   alert('Something went wrong. Please try again.');
-    // }
-    ''
+      const responseData = await res.json();
+      console.log('Budget deleted:', responseData);
+      setBudgetToDelete(null)
+      UPDATE()
+    } catch (error) {
+      console.error('Error deleting Budget:', error);
+    }
   };
-  
 
   return (
     <div className='fixed top-0 left-0 z-50 w-full h-full bg-[#00000090] '>
