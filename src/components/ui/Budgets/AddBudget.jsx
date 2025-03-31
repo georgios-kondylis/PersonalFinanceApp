@@ -116,8 +116,8 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
             <p className='subText'>Budget Category</p>
             <div id='CATEGORIES_BUTTON' className='relative themeButtonStyles'
                  onClick={() => {setSelectBudgetCategOpen(prev => !prev); setSelectThemesOpen(false)}}>
-              <p className='flex items-center gap-[11px]'>
-                {newBudgetCategory? newBudgetCategory : transactionCategories[0]}
+              <p className={`flex items-center gap-[11px] ${!newBudgetCategory && 'font-sans text-[15px] text-[#6a6a6abb] font-[400]'}`}>
+                {newBudgetCategory? newBudgetCategory : 'Choose Category'}
               </p>
               {selectBudgetCategOpen? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>}
 
@@ -144,6 +144,7 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
               <i className="text-[#7a7a7a] text-[15px] fa-solid fa-dollar-sign"></i>
               <input className='rounded-[10px] pl-[13px] cursor-pointer w-full outline-none text-[16px] font-sans font-[400]' 
                     onChange={(e) => handleMaxSpendChange(e)}
+                    onClick={() => {setSelectThemesOpen(false); setSelectBudgetCategOpen(false);}}
                     type="text" placeholder='e.g. 2000' 
                     value={newMaxSpend}
               />
@@ -156,10 +157,14 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
             <div id='THEME_BUTTON' className='relative themeButtonStyles'
                  onClick={() => {setSelectThemesOpen(prev => !prev); setSelectBudgetCategOpen(false)}}>
               <div className='flex items-center gap-[11px]'>
+               {newTheme.theme && 
                 <div id='COLOR_CIRCLE' className={`rounded-full w-[18px] h-[18px]`} 
                      style={{backgroundColor: newTheme.theme? newTheme.theme : themes[0].value}}>
-                </div>  {/* if no theme selectes take the 1st from themes by default */}
-                <p>{newTheme.themeName ? newTheme.themeName : themes[0].name}</p> 
+                </div> 
+                 }
+                <p className={`${!newTheme.themeName && 'font-sans text-[15px] text-[#6a6a6abb] font-[400]'}`}>
+                  {newTheme.themeName ? newTheme.themeName : 'Choose Theme Color'}
+                </p> 
               </div>
               {selectThemesOpen? <i className="fa-solid fa-caret-up"></i> : <i className="fa-solid fa-caret-down"></i>
               }

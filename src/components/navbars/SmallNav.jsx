@@ -4,7 +4,12 @@ import { NavLink, useLocation } from "react-router-dom";
 
 const SmallNav = () => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  const { pathname } = useLocation(); // To get the current path
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/sign-in' || location.pathname === '/sign-up';
+
+  if(isAuthPage) {  // hide the NavBar when Sign-in / Sign-up
+    return null
+  }
 
   return (
     <section className="z-50 w-full fixed bottom-0 gray1 h-[63px] txt3b rounded-t-[15px]">

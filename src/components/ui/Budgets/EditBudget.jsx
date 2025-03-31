@@ -42,6 +42,39 @@ const EditBudget = ({setBudgetToEdit, budget, budgets, transactions, UPDATE}) =>
   }, [newTheme]);
   // ----- THEMES -----
 
+  const handleUpdate = async (id) => {
+    try {
+      const res = await fetch(`http://localhost:5000/api/budgets/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          category: newBudgetCategory,
+          maximum: parseInt(newMaxSpend),
+          theme: newTheme.theme,
+          themeName: newTheme.themeName,
+        }),
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Failed to update budget');
+      }
+      const updatedBudget = await res.json();
+      console.log('Budget updated successfully:', updatedBudget);
+      UPDATE()
+      setCustomMessage('Budget Updated!')
+      setCustomMessageActive(true);
+      setSuccess(true);
+      setTimeout(() => {
+        setCustomMessageActive(false); 
+        setBudgetToEdit(null); // close pop up
+      }, 1000);
+  
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <div className='fixed h-full top-0 left-0 z-50 w-full bg-[#00000080] overflow-y-hidden'>
       <div className='absolute abs_center w-[520px] max-sm:w-[90%] bg-white p-[25px] rounded-[10px] flex flex-col gap-[25px] shadow-sm'>
@@ -130,7 +163,8 @@ const EditBudget = ({setBudgetToEdit, budget, budgets, transactions, UPDATE}) =>
           </div>
         </div>
 
-        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'>
+        <button id='SAVE' className='w-full gray1 text-[#fff] p-[17px] rounded-[10px] font-sans font-[550] tracking-[0.5px] hover:text-[17px] transition1'
+                onClick={() => handleUpdate(budget._id)}>
           Save Changes
         </button>
       

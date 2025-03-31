@@ -165,7 +165,7 @@ export const getTheLatestMonthTransactions = (array, category) => {
   const latestYear = latestMonth.getFullYear();
   const latestMonthIndex = latestMonth.getMonth(); // 0 = Jan, 11 = Dec
 
-  // Step 2: Filter only "Entertainment" transactions from the latest month
+  // Step 2: Filter only specific transactions from the latest month
   const latestMonthTransactions = array.filter((object) => {
     const transactionDate = new Date(object.date);
       return (

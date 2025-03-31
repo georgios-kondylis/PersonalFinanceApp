@@ -36,6 +36,31 @@ router.post('/', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const { category, maximum, theme, themeName } = req.body;
+    const { id } = req.params;
+
+    if (!category || !maximum || !theme || !themeName) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+
+    const updatedBudget = await Budgets.findByIdAndUpdate(id,
+      { category, maximum, theme, themeName },
+      { new: true, runValidators: true } // Return updated document & validate changes
+    );
+
+    if (!updatedBudget) {
+      return res.status(404).json({ error: 'Budget not found' });
+    }
+
+    res.status(200).json(updatedBudget);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Failed to update budget' });
+  }
+});
+
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params; // Get the ID from URL

@@ -153,4 +153,8 @@ h4{
 
 .drop_down_theme_list {@apply z-50 rounded-[10px] SHADOW absolute bottom-[-245px] w-[101%] h-[230px] right-[-2px] bg-[#fff] border px-[20px] py-[5px] flex flex-col overflow-y-auto}
 
+.AUTH_INPUTS {@apply h-[50px] text-[18px] font-sans border rounded-[7px] w-full py-[8px] px-[10px] outline-none hover:border-[#505050]}
+
+.AUTH_INPUTS_ICON {@apply text-[18px] font-sans rounded-[7px] w-full py-[8px] px-[10px] outline-none}
+
 

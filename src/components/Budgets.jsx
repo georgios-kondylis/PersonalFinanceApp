@@ -25,7 +25,7 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
   });
 
   return (
-    <section className="section relative">
+    <section className="section relative" onClick={()=> setActiveBudgetIndex(null) }>
       <div id="All_CONTAINER" className="flex flex-col GAP">
         <div id="HEADER" className="flex w-full items-center justify-between font-sans">
           <p className="txt5">Budgets</p>
@@ -35,16 +35,16 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
         </div>
 
         <div id="COLUMNS_CONTAINER" className="flex max-lg:flex-col GAP">
-          <div id="COLUMN_1" className="LARGE-> flex w-[40%] h-[570px]  GAP bg-white rounded-[10px] p-[20px] 
+          <div id="COLUMN_1" className="LARGE-> flex w-[40%] h-[570px] GAP bg-white rounded-[10px] p-[20px] 
                                         MID-LARGE-> lg:flex-col  max-lg:w-full max-lg:h-[300px] max-lg:p-[30px] 
                                         SMALL-> max-sm:flex-col max-sm:w-full max-sm:h-[570px] max-sm:p-[20px]">
-            <div className="LARGE-> w-full h-[50%] min-h-[50%] mt-[10px]
+            <div className="LARGE-> w-full h-[48%] min-h-[48%] mt-[10px]
                             MID-LARGE-> max-lg:h-[100%] max-lg:w-[50%] max-lg:mt-[0px]
-                            SMALL-> max-sm:w-full max-sm:h-[50%] max-sm:mt-[10px]">
+                            SMALL-> max-sm:w-full max-sm:h-[50%] max-sm:mt-[0px]">
               <MyPieChartBudgets budgets={updatedBudgets} />
             </div>
 
-            <div id="DETAILS" className="flex max-lg:w-[50%] overflow-y-auto mt-[10px] flex-col GAP  max-sm:w-full">
+            <div id="DETAILS" className={`flex max-lg:w-[50%] ${updatedBudgets.length > 4 && 'overflow-y-auto'} mt-[10px] flex-col GAP  max-sm:w-full`}>
               <h1>Spending Summary</h1>
               <BudgetDetails2 updatedBudgets={updatedBudgets} />
             </div>
@@ -69,7 +69,9 @@ const Budgets = ({ budgets, transactions, UPDATE, setCategSelected }) => {
                   </div>
 
                   <div id="DOTS" className="relative flex gap-[2.5px] items-center cursor-pointer px-[10px] py-[7px]"
-                      onClick={() => setActiveBudgetIndex(dotsActive? null : i)}>
+                      onClick={(e) =>{ 
+                        e.stopPropagation();
+                        setActiveBudgetIndex(dotsActive? null : i)}}>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>
                     <div className="w-[4px] h-[4px] rounded-full bg-[gray]"></div>

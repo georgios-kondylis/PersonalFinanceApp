@@ -9,6 +9,8 @@ import Transactions from './components/Transactions';
 import Budgets from './components/Budgets';
 import Pots from './components/Pots';
 import RecurringBills from './components/RecurringBills';
+import SignIn from './Auth/SignIn';
+import SignUp from './Auth/SignUp';
 
 function App() {
   const [navIsOpen, setNavIsOpen] = useState(true);
@@ -78,7 +80,7 @@ function App() {
   
   const [categSelected, setCategSelected] = useState(''); // this will be passed to Transactions.jsx and Budgets.jsx
   return (
-    <div className='flex w-full gray1'>
+    <div className='flex w-full '>
       {wideScreen?
       <SideNav toggleNav={toggleNav} navIsOpen={navIsOpen}/> : <SmallNav/>}
       <Routes>
@@ -97,6 +99,10 @@ function App() {
         <Route path="/budgets" element={<Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} setCategSelected={setCategSelected}/>} />
         <Route path="/pots" element={<Pots pots={pots} UPDATE={UPDATE} />} />
         <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
+       
+
+        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-up" element={<SignUp/>} />
       </Routes>
     </div>
   );

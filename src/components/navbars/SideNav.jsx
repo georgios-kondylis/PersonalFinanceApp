@@ -3,8 +3,16 @@ import { navLinks } from "../../utils";
 import { NavLink } from "react-router-dom"; 
 import Logo from "../ui/Logo";
 import ToggleSideBar from "../ui/ToggleSideBar";
+import { useLocation } from "react-router-dom";
 const SideNav = ({ navIsOpen, toggleNav }) => { 
+  const location = useLocation();
+  const isAuthPage = location.pathname === '/sign-in' || location.pathname === '/sign-up';
   const [hoveredIndex, setHoveredIndex] = useState(null); 
+
+  if(isAuthPage) {  // hide the NavBar when Sign-in / Sign-up
+    return null
+  }
+
   return ( 
     <section className={`z-50 beige1 min-h-screen txt3b transition1 
             ${navIsOpen ? "max-w-[280px] w-[280px] superwide:max-w-[380px] superwide:w-[380px]" : "max-w-[80px] w-[80px]"}`}> 
@@ -15,7 +23,9 @@ const SideNav = ({ navIsOpen, toggleNav }) => {
             <div>
               {navLinks.map((link, i) => { 
                 return ( 
-                  <NavLink to={link.url} key={i} className={({ isActive }) => `navlink ${navIsOpen ? "mr-[17px]" : "mr-[4px]"} relative ${isActive ? "linkIsActive" : ""}`} onMouseEnter={() => setHoveredIndex(i)} onMouseLeave={() => setHoveredIndex(null)}> 
+                  <NavLink to={link.url} key={i} className={({ isActive }) => `navlink ${navIsOpen ? "mr-[17px]" : "mr-[4px]"} relative ${isActive ? "linkIsActive" : ""}`}
+                     onMouseEnter={() => setHoveredIndex(i)} onMouseLeave={() => setHoveredIndex(null)}> 
+
                     {link.svgPath && ( 
                       <svg className={`${link.name === "Overview" && "scale-[1.1]"} ${link.name === "Transactions" && "scale-[1.3]"} ${link.name === "Budgets" && "scale-[1.1]"} ${link.name === "Pots" && "scale-[1.1]"} ${link.name === "Recurring bills" && "pt-[3px] scale-[1.2]"}`} width="20" height="26" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"> 
                         <path d={link.svgPath} /> 
