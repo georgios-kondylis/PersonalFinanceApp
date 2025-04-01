@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { custom_950px_breakpoint } from './utils';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import HomePage from './components/HomePage';
 import SideNav from './components/navbars/SideNav';
@@ -13,6 +14,20 @@ import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
 
 function App() {
+  const navigate = useNavigate();
+  const [APPROVED, setAPPROVED] = useState(false);
+
+ useEffect(() => {
+  const token = sessionStorage.getItem("token"); // as soon as you log in a token gets generated and lasts for 2 hours
+
+  if (token) {
+    setAPPROVED(true);
+    navigate('/'); // ✅ Redirect only after setting state
+  } else {
+    navigate('/sign-in');
+  }
+}, [APPROVED]);
+
   const [navIsOpen, setNavIsOpen] = useState(true);
   const toggleNav = () => setNavIsOpen((prev) => !prev);
   const wideScreen = custom_950px_breakpoint();
@@ -101,7 +116,7 @@ function App() {
         <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
        
 
-        <Route path="/sign-in" element={<SignIn />} />
+        <Route path="/sign-in" element={<SignIn setAPPROVED={setAPPROVED}/>} />
         <Route path="/sign-up" element={<SignUp/>} />
       </Routes>
     </div>

@@ -1,12 +1,78 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+  const [message, setMessage] = useState('email must iclude @');
+  const [messageActive, setMessageActive] = useState(false);
+  const [success, setSuccess] = useState(false);
+  
+  const navigate = useNavigate();
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   
   const [showPassword, setShowPassword] = useState(false);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+
+    if (!name || !email || !password) {
+      setMessage('Please fill in all fields.');
+      setSuccess(false);
+      setMessageActive(true);
+      setTimeout(() => { setMessageActive(false); }, 1500);
+      return;
+    }
+    
+    // Check if the email contains '@' and basic validation
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@.+\.[a-zA-Z]{2,}$/;
+    if (!email.match(emailRegex)) {
+      setMessage('Please enter a valid email address.');
+      setSuccess(false);
+      setMessageActive(true);
+      setTimeout(() => { setMessageActive(false); }, 1500);
+      return;
+    }
+
+    if (password.length < 8) {
+      setMessage('Password must be at least 8 characters.');
+      setSuccess(false);
+      setMessageActive(true);
+      setTimeout(() => { setMessageActive(false); }, 1500);
+      return;
+    }
+
+    const newUser = { name, email, password };
+
+    try {
+      const response = await fetch('http://localhost:5000/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setMessage('Sign-up successful!');
+        setSuccess(true);
+        setMessageActive(true); 
+        setTimeout(() => { setMessageActive(false);  navigate('/sign-in'); }, 1500);
+      } else {
+        setMessage('Something went wrong. Please try again.');
+        setSuccess(false);
+        setMessageActive(true);
+        setTimeout(() => { setMessageActive(false); }, 1500);
+      }
+    } catch (err) {
+      setMessage('Server error. Please try again later.');
+      setSuccess(false);
+      setMessageActive(true);
+      setTimeout(() => { setMessageActive(false); }, 1500);
+    }
+  };
+
 
   return (
     <div id='OUTSIDE' className='lg:p-[20px] w-full bg-BEIGE h-screen'>
@@ -34,8 +100,8 @@ const SignUp = () => {
         </div>
 
 
-        <div id='LOGIN_CONTAINER' className='max-lg:w-full w-[50%] flex justify-center'>
-          <div id='LOGIN' className='w-[500px] max-sm:w-[90%] bg-white rounded-[10px] p-[30px] flex flex-col GAP'>
+        <div id='LOGIN_CONTAINER' className=' max-lg:w-full w-[50%] flex justify-center'>
+          <div id='LOGIN' className='relative w-[500px] max-sm:w-[90%] bg-white rounded-[10px] p-[30px] flex flex-col GAP'>
               <h1 className='txt5'>Sign Up</h1>
 
               <div id='INPUTS' className='flex flex-col gap-[20px]'>
@@ -62,17 +128,20 @@ const SignUp = () => {
                       
                   <p className='thinSubText text-right'>Passwords must be at least 8 characters</p>
                 </div>
-
-               
               </div>
 
-              <button id='SUBMIT_BTN' className='gray1 txt2 text-[white] h-[50px] rounded-[7px]'>
-                  <p className='tracking-[1px] font-sans font-[600]'> LogIn </p>
+              <button onClick={handleSubmit} id='SUBMIT_BTN' className='gray1 txt2 text-[white] h-[50px] rounded-[7px]'>
+                  <p className='tracking-[1px] font-sans font-[600]'> Sign Up </p>
               </button>
 
               <div className='flex gap-[10px] w-full justify-center'>
                 <p className='thinSubText'>Already have an account?</p>
                 <Link to={'/sign-in'} className='border-b-[3px] border-black'>Sign In</Link>
+              </div>
+
+               {/* ERROR MESSAGE ABSOLUTE */}
+              <div className={`absolute left-0 w-[100%] rounded-[10px] bg-white transition2 ${messageActive? 'bottom-[-55px]' : 'bottom-0 opacity-0 pointer-events-none'} p-[12px] flex justify-center`}>
+                <p className={`${success && 'text-GREEN'}`}>{message}</p>
               </div>
           </div>
         </div>
