@@ -46,7 +46,6 @@ router.post("/register", async (req, res) => {
   }
 });
 
-// Login Route   | http://localhost:5000/api/users/login 
 router.post("/login", async (req, res) => { 
   try {
     const { email, password } = req.body;

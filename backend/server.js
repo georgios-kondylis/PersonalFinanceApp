@@ -20,7 +20,7 @@ if (!process.env.JWT_SECRET) {
 }
 
 
-app.use("/api/users", usersRoutes); // http://localhost:5000/api/users/login (to sign in) | http://localhost:5000/api/users/register (to sign up)
+app.use("/api/users", usersRoutes);
 
 app.use("/api/balance", balanceRoutes);
 app.use("/api/transactions", transactionsRoutes);
