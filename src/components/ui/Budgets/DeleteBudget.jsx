@@ -3,7 +3,7 @@ import React from 'react'
 const DeleteBudget = ({budget, setBudgetToDelete, UPDATE }) => {
   const handleDelete = async (budgetID) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/budgets/${budgetID}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/budgets/${budgetID}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });

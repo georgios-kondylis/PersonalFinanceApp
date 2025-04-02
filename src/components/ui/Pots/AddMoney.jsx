@@ -39,7 +39,7 @@ const AddMoney = ({pots, pot, setPotToAddMoney, UPDATE}) => {
     }
     
 
-    const response = await fetch(`http://localhost:5000/api/pots/add-money/${potID}`, {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/pots/add-money/${potID}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',

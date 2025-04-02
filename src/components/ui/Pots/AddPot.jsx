@@ -22,7 +22,7 @@ const AddPot = ({pots, setAddPotActive, UPDATE}) => {
         }, 1000);
       }
 
-      const res = await fetch('http://localhost:5000/api/pots', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/pots`, {
         method: 'POST',
         headers: {'Content-Type' : 'application/json'},
         body: JSON.stringify({

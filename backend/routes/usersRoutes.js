@@ -13,6 +13,7 @@ const router = express.Router();
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Register Route  | http://localhost:5000/api/users/register 
+// After deploy backend https://personalfinanceapp-production.up.railway.app/api/users/register
 router.post("/register", async (req, res) => { 
   try {
     const { name, email, password } = req.body;

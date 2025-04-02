@@ -3,7 +3,7 @@ import React from 'react'
 const DeletePot = ({pot, setPotToDelete, UPDATE }) => {
   const handleDelete = async (potId) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/pots/${potId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/pots/${potId}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
       });

@@ -44,7 +44,7 @@ const EditBudget = ({setBudgetToEdit, budget, budgets, transactions, UPDATE}) =>
 
   const handleUpdate = async (id) => {
     try {
-      const res = await fetch(`http://localhost:5000/api/budgets/${id}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/budgets/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

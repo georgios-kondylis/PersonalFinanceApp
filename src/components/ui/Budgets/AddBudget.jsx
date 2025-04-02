@@ -65,7 +65,7 @@ const AddBudget = ({budgets, setAddBudgetActive, transactions, UPDATE}) => {
     }
 
     try {
-      const res = await fetch('http://localhost:5000/api/budgets', {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/budgets`, {
        method: 'POST', 
        headers: {'Content-Type' : 'application/json'},
        body: JSON.stringify ({

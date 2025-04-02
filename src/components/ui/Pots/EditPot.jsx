@@ -56,7 +56,7 @@ const EditPot = ({setPotToEdit, pot, pots, UPDATE}) => {
     }
   
     try {
-      const res = await fetch(`http://localhost:5000/api/pots/${potId}`, {
+      const res = await fetch(`${import.meta.env.VITE_BACKEND_API_URL}/api/pots/${potId}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

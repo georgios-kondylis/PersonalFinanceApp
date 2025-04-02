@@ -17,6 +17,9 @@ function App() {
   const navigate = useNavigate();
   const [APPROVED, setAPPROVED] = useState(false);
 
+  //    import.meta.env.VITE_BACKEND_API_URL
+  const backend_URL = import.meta.env.VITE_BACKEND_API_URL;
+
  useEffect(() => {
   const token = sessionStorage.getItem("token"); // as soon as you log in a token gets generated and lasts for 2 hours
 
@@ -67,10 +70,10 @@ function App() {
   useEffect(() => { // Fetch all MongoDB data
     const fetchData = async () => {
       try {
-        const transactionsRes = await fetch('http://localhost:5173/api/transactions');
-        const balanceRes = await fetch('http://localhost:5000/api/balance');
-        const potsRes = await fetch('http://localhost:5000/api/pots');
-        const budgetsRes = await fetch('http://localhost:5000/api/budgets');
+        const transactionsRes = await fetch(`${backend_URL}/api/transactions`);
+        const balanceRes = await fetch(`${backend_URL}/api/balance`);
+        const potsRes = await fetch(`${backend_URL}/api/pots`);
+        const budgetsRes = await fetch(`${backend_URL}/api/budgets`);
 
         const transactionsData = await transactionsRes.json();
         const balanceData = await balanceRes.json();
