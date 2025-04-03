@@ -104,7 +104,7 @@ const RecurringBills = ({ recurringBills, paidBills, totalUpcoming, within5days}
             />
               
             <div className="flex flex-col">
-              <div className="flex thinSubText justify-between border-b-[2px] py-[17px]">
+              <div className="max-sm:hidden flex thinSubText justify-between border-b-[2px] py-[17px]">
                 <h1>Bill title</h1>
                 <div className="flex items-center justify-between w-[50%]">
                   <h1>Due date</h1>
