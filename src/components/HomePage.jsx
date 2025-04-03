@@ -69,14 +69,20 @@ const HomePage = ({
         
           <div className="flex flex-col GAP w-[40%] max-1250:w-full">
                  {/* Budgets Section */}
-            <div className="gridBox flex flex-col items-center justify-center">
+            <div className="gridBox max-sm:h-[460px] flex flex-col items-center justify-center
+                            max-sm:min-h-[460px] max-sm:justify-between">
               <div className="flex items-center mb-[20px] sm:mb-[40px] justify-between w-full">
                  <h2 className="text-lg font-semibold">Budgets</h2>
                  <div onClick={() => navigate("/budgets")}> <ViewAll label={'See details'}/> </div>
               </div>
-              <div className="flex gap-[10px] max-sm:flex-col w-full justify-start items-center">
-                <MyPieChart budgets={budgets}/>
-                <BudgetDetails budgets={budgets}/>
+              <div className="flex gap-[10px] max-sm:flex-col w-full justify-cencter items-center">
+                <div className="w-full h-full max-sm:max-h-[50%] max-sm:h-[300px]">
+                  <MyPieChart budgets={budgets}/>
+                </div>
+                <div>
+                  <BudgetDetails budgets={budgets}/>
+                </div>
+         
               </div>
               
             </div>
