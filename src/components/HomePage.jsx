@@ -7,6 +7,7 @@ import PotsBox from "./ui/PotsBox";
 import MyPieChart from "./ui/MyPieChart";
 import BudgetDetails from "./ui/BudgetDetails";
 import RecBillsBox from "./ui/RecBillsBox";
+import { capitalizeFirstLetter } from "../utils";
 
 
 const HomePage = ({ 
@@ -20,11 +21,27 @@ const HomePage = ({
   within5days}) => {
 
   const navigate = useNavigate();
+  const userInfo = sessionStorage.getItem('user');
+  const user = JSON.parse(userInfo);
 
   return (
     <section className="section">
       <div className="flex flex-col headerGAP h-full">
-        <h1 className="txt5">Overview</h1>
+        <div className="flex justify-between items-center">
+           <h1 className="txt5">Overview</h1>
+
+           <div className="flex items-center gap-[20px]">
+            <h1 className="txt5 max-sm:hidden">{capitalizeFirstLetter(user.name) || 'User'}</h1>
+            <button className="Add_Button"
+              onClick={() => {
+                sessionStorage.removeItem('token');
+                sessionStorage.removeItem('user');
+                navigate('/sign-in')
+              }}>
+              Log out
+            </button>
+           </div>
+        </div>
 
         {/* Balance Section */}
         <div className="flex flex-wrap gap-4 justify-between">

@@ -178,3 +178,9 @@ export const getTheLatestMonthTransactions = (array, category) => {
   // console.log(latestMonthTransactions);
   return latestMonthTransactions; // <-- Add this return statement!
 }
+
+// Function to capitalize the first letter of a string
+export const capitalizeFirstLetter = (str) => {
+  if (!str) return "";  // Handle edge case where string might be empty or undefined
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};

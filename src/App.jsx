@@ -12,6 +12,7 @@ import Pots from './components/Pots';
 import RecurringBills from './components/RecurringBills';
 import SignIn from './Auth/SignIn';
 import SignUp from './Auth/SignUp';
+import ProtectedRoute from './Auth/ProtectedRoutes';
 
 function App() {
   const navigate = useNavigate();
@@ -103,20 +104,39 @@ function App() {
       <SideNav toggleNav={toggleNav} navIsOpen={navIsOpen}/> : <SmallNav/>}
       <Routes>
         <Route path="/" element={
-          <HomePage 
-          transactions={transactions}
-           pots={pots} budgets={budgets} 
-           balance={balance} 
-           recurringBills={recurringBills} 
-           paidBills={paidBills} 
-           totalUpcoming={totalUpcoming}
-           within5days={within5days}/>} 
+          <ProtectedRoute>
+             <HomePage 
+              transactions={transactions}
+              pots={pots} budgets={budgets} 
+              balance={balance} 
+              recurringBills={recurringBills} 
+              paidBills={paidBills} 
+              totalUpcoming={totalUpcoming}
+              within5days={within5days}/>
+          </ProtectedRoute>
+         } 
          />
 
-        <Route path="/transactions" element={<Transactions transactions={transactions} categSelected={categSelected} setCategSelected={setCategSelected} />} />
-        <Route path="/budgets" element={<Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} setCategSelected={setCategSelected}/>} />
-        <Route path="/pots" element={<Pots pots={pots} UPDATE={UPDATE} />} />
-        <Route path="/recurring-bills" element={<RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>} />
+        <Route path="/transactions" element={
+          <ProtectedRoute>
+             <Transactions transactions={transactions} categSelected={categSelected} setCategSelected={setCategSelected} />
+          </ProtectedRoute> 
+        } />
+        <Route path="/budgets" element={
+          <ProtectedRoute>
+            <Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} setCategSelected={setCategSelected}/>
+          </ProtectedRoute>
+          } />
+        <Route path="/pots" element={
+          <ProtectedRoute>
+            <Pots pots={pots} UPDATE={UPDATE} />
+          </ProtectedRoute>
+          } />
+        <Route path="/recurring-bills" element={
+          <ProtectedRoute>
+            <RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>
+          </ProtectedRoute>
+          } />
        
 
         <Route path="/sign-in" element={<SignIn setAPPROVED={setAPPROVED}/>} />

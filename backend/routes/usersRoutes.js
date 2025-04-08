@@ -5,7 +5,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../models/usersModel.js"; 
 import dotenv from "dotenv";
-import { protect } from "../authMiddleware.js";
 
 dotenv.config(); // Load environment variables
 
@@ -58,7 +57,7 @@ router.post("/login", async (req, res) => {
     const emailLower = email.toLowerCase();
     
     // Check if user exists
-    const user = await User.findOne({ email: emailLower });
+    const user = await User.findOne({ email: emailLower }).select("name email password");
     if (!user) {
       return res.status(400).json({ error: "Invalid email or password" });
     }
@@ -76,7 +75,7 @@ router.post("/login", async (req, res) => {
     // Generate JWT Token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: "2h" });
 
-    res.json({ message: "Login successful", token });
+    return res.status(200).json({ message: "Login successful", token, user: { name: user.name, email: user.email} });
 
   } catch (error) {
     res.status(500).json({ error: "Login failed", details: error.message });
