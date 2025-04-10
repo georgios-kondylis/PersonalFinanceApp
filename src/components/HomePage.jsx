@@ -113,7 +113,7 @@ const HomePage = ({
 
           <div className="flex flex-col GAP w-[40%] max-1250:w-full">
             {/* Budgets Section */}
-            <div className="gridBox max-sm:h-[460px] flex flex-col items-center justify-center max-sm:min-h-[460px] max-sm:justify-between">
+            <div className="gridBox max-sm:h-[510px] flex flex-col items-center justify-center max-sm:min-h-[460px] max-sm:justify-between">
               <div className="flex items-center mb-[20px] sm:mb-[40px] justify-between w-full">
                 <h2 className="text-lg font-semibold">Budgets</h2>
                 <div onClick={() => navigate("/budgets")}>
