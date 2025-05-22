@@ -30,7 +30,7 @@ const SignIn = ({setAPPROVED}) => {
         setSuccess(true);
         setMessageActive(true);
         
-        console.log("JWT Token:", data.token); // 👀 Log token in console
+       // console.log("JWT Token:", data.token); // 👀 Log token in console
   
         // ✅ Save token to localStorage or sessionStorage
         sessionStorage.setItem("token", data.token);
