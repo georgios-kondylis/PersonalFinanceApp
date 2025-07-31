@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 const ProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
+  const [guest, setGuest] = useState(false);
   const token = sessionStorage.getItem("token");
   const userInfo = sessionStorage.getItem('user');
   const user = userInfo ? JSON.parse(userInfo) : null;

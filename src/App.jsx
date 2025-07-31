@@ -17,20 +17,27 @@ import ProtectedRoute from './Auth/ProtectedRoutes';
 function App() {
   const navigate = useNavigate();
   const [APPROVED, setAPPROVED] = useState(false);
+  const [logInAsGuest, setLogInAsGuest] = useState(false);
 
   //    import.meta.env.VITE_BACKEND_API_URL
   const backend_URL = import.meta.env.VITE_BACKEND_API_URL;
 
- useEffect(() => {
-  const token = sessionStorage.getItem("token"); // as soon as you log in a token gets generated and lasts for 2 hours
-
+// Checks for session token on mount
+useEffect(() => {
+  const token = sessionStorage.getItem("token");
   if (token) {
     setAPPROVED(true);
-    navigate('/'); // ✅ Redirect only after setting state
-  } else {
-    navigate('/sign-in');
+    navigate('/');
   }
-}, [APPROVED]);
+}, []);
+
+// Reacts to guest login specifically
+useEffect(() => {
+  if (logInAsGuest) {
+    setAPPROVED(true);
+    navigate('/');
+  }
+}, [logInAsGuest]);
 
   const [navIsOpen, setNavIsOpen] = useState(true);
   const toggleNav = () => setNavIsOpen((prev) => !prev);
@@ -104,7 +111,7 @@ function App() {
       <SideNav toggleNav={toggleNav} navIsOpen={navIsOpen}/> : <SmallNav/>}
       <Routes>
         <Route path="/" element={
-          <ProtectedRoute>
+          // <ProtectedRoute>
              <HomePage 
               transactions={transactions}
               pots={pots} budgets={budgets} 
@@ -112,34 +119,35 @@ function App() {
               recurringBills={recurringBills} 
               paidBills={paidBills} 
               totalUpcoming={totalUpcoming}
-              within5days={within5days}/>
-          </ProtectedRoute>
+              within5days={within5days}
+              setLogInAsGuest={setLogInAsGuest}/>
+          // </ProtectedRoute>
          } 
          />
 
         <Route path="/transactions" element={
-          <ProtectedRoute>
+        //  <ProtectedRoute>
              <Transactions transactions={transactions} categSelected={categSelected} setCategSelected={setCategSelected} />
-          </ProtectedRoute> 
+        //  </ProtectedRoute> 
         } />
         <Route path="/budgets" element={
-          <ProtectedRoute>
+        //  <ProtectedRoute>
             <Budgets  budgets={budgets} transactions={transactions} UPDATE={UPDATE} setCategSelected={setCategSelected}/>
-          </ProtectedRoute>
+        //  </ProtectedRoute>
           } />
         <Route path="/pots" element={
-          <ProtectedRoute>
+        //  <ProtectedRoute>
             <Pots pots={pots} UPDATE={UPDATE} />
-          </ProtectedRoute>
+        //  </ProtectedRoute>
           } />
         <Route path="/recurring-bills" element={
-          <ProtectedRoute>
+        //  <ProtectedRoute>
             <RecurringBills recurringBills={recurringBills} paidBills={paidBills} totalUpcoming={totalUpcoming} within5days={within5days}/>
-          </ProtectedRoute>
+         // </ProtectedRoute>
           } />
        
 
-        <Route path="/sign-in" element={<SignIn setAPPROVED={setAPPROVED}/>} />
+        <Route path="/sign-in" element={<SignIn setAPPROVED={setAPPROVED} logInAsGuest={logInAsGuest} setLogInAsGuest={setLogInAsGuest}/>} />
         <Route path="/sign-up" element={<SignUp/>} />
       </Routes>
     </div>

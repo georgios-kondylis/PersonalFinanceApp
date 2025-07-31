@@ -2,12 +2,11 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
-const SignIn = ({setAPPROVED}) => {
+const SignIn = ({setAPPROVED, setLogInAsGuest}) => {
   const [message, setMessage] = useState('Email or Password is incorrect');
   const [messageActive, setMessageActive] = useState(false);
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
-
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('')
@@ -143,7 +142,10 @@ const SignIn = ({setAPPROVED}) => {
             >
               {loading ? "Logging in..." : "Log In"}
             </button>
-
+            
+            <p className='cursor-pointer hover:scale-[1.1] transition1 mx-auto hover:underline' onClick={() => setLogInAsGuest(true)}>
+              login as a guest
+            </p>
 
             <div className='flex gap-[10px] w-full justify-center cursor-pointer'>
               <p className='thinSubText'>Need to create an account?</p>

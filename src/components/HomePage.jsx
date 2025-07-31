@@ -19,6 +19,7 @@ const HomePage = ({
   paidBills,
   totalUpcoming,
   within5days,
+  setLogInAsGuest,
 }) => {
   const navigate = useNavigate();
   const userInfo = sessionStorage.getItem('user');
@@ -47,6 +48,7 @@ const HomePage = ({
               onClick={() => {
                 sessionStorage.removeItem('token');
                 sessionStorage.removeItem('user');
+                setLogInAsGuest(false);
                 navigate('/sign-in');
               }}
             >
